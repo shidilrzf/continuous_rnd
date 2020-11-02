@@ -14,8 +14,8 @@ from rlkit.torch.data_management.normalizer import TorchFixedNormalizer
 from rlkit.torch.modules import LayerNorm
 
 
-def identity(x):
-    return x
+# def identity(x):
+#     return x
 
 
 class Mlp(nn.Module):
@@ -26,7 +26,7 @@ class Mlp(nn.Module):
             input_size,
             init_w=3e-3,
             hidden_activation=F.relu,
-            output_activation=identity,
+            output_activation=nn.Identity(),
             hidden_init=ptu.fanin_init,
             b_init_value=0.1,
             layer_norm=False,

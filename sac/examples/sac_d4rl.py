@@ -7,7 +7,10 @@ from rlkit.launchers.launcher_util import setup_logger
 from rlkit.samplers.data_collector import MdpPathCollector, CustomMDPPathCollector
 from rlkit.torch.sac.policies import TanhGaussianPolicy, MakeDeterministic
 from rlkit.torch.sac.sac import SACTrainer
+from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
 from rlkit.torch.networks import FlattenMlp
+from rlkit.torch.networks import Mlp
+
 from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
 
 
@@ -15,6 +18,9 @@ import h5py, argparse, os
 import gym
 import d4rl
 import numpy as np
+import torch
+
+
 
 def load_hdf5(dataset, replay_buffer, max_size):
     all_obs = dataset['observations']
@@ -78,6 +84,23 @@ def experiment(variant):
         action_dim=action_dim,
         hidden_sizes=[M, M],
     )
+    if variant['rnd']:
+        rnd_network = Mlp(
+            input_size=obs_dim + action_dim,
+            output_size=1,
+            hidden_sizes=[64, 64],
+        )
+
+        rnd_target_network = Mlp(
+            input_size=obs_dim + action_dim,
+            output_size=1,
+            hidden_sizes=[64, 64],
+        )
+        checkpoint = torch.load(variant['rnd_path'])
+        rnd_network.load_state_dict(checkpoint['network_state_dict'])
+        rnd_target_network.load_state_dict(checkpoint['target_state_dict'])
+        print('Loading rnd model: {}'.format(variant['rnd_path']))
+
     eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
         eval_env,
@@ -97,15 +120,29 @@ def experiment(variant):
 
     load_hdf5(eval_env.unwrapped.get_dataset(), replay_buffer, max_size=variant['replay_buffer_size'])
 
-    trainer = SACTrainer(
-        env=eval_env,
-        policy=policy,
-        qf1=qf1,
-        qf2=qf2,
-        target_qf1=target_qf1,
-        target_qf2=target_qf2,
-        **variant['trainer_kwargs']
-    )
+    if variant['rnd']:
+        trainer = SAC_RNDTrainer(
+            env=eval_env,
+            policy=policy,
+            qf1=qf1,
+            qf2=qf2,
+            target_qf1=target_qf1,
+            target_qf2=target_qf2,
+            rnd_network = rnd_network,
+            rnd_target_network = rnd_target_network,
+            **variant['trainer_kwargs']
+        )
+
+    else:
+        trainer = SACTrainer(
+            env=eval_env,
+            policy=policy,
+            qf1=qf1,
+            qf2=qf2,
+            target_qf1=target_qf1,
+            target_qf2=target_qf2,
+            **variant['trainer_kwargs']
+        )
     algorithm = TorchBatchRLAlgorithm(
         trainer=trainer,
         exploration_env=expl_env,
@@ -127,6 +164,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
+    parser.add_argument('--rnd', action='store_true', default=False, help='rnd traning')
+
     parser.add_argument("--gpu", default='0', type=str)
     parser.add_argument('--qf_lr', default=3e-4, type=float)
     parser.add_argument('--policy_lr', default=1e-4, type=float)
@@ -135,8 +174,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # noinspection PyTypeChecker
+    rnd_path = '/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-03-2020_1648_halfcheetah-medium-v0.pt'
     variant = dict(
         algorithm="SAC",
+        rnd = args.rnd,
+        rnd_path = rnd_path,
         version="normal",
         layer_size=256,
         replay_buffer_size=int(1E6),
@@ -164,6 +206,11 @@ if __name__ == "__main__":
             use_automatic_entropy_tuning=True,
         ),
     )
-    setup_logger('sac_d4rl', variant=variant, base_log_dir='logs/')
+    if args.rnd:
+        exp_name = 'sac_d4rl_rnd_{}'.format(args.env)
+    else:
+        exp_name = 'sac_d4rl_{}'.format(args.env)
+    print(' experiment:{}'.format(exp_name))
+    setup_logger(exp_name, variant=variant, base_log_dir='logs/')
     # ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
     experiment(variant)

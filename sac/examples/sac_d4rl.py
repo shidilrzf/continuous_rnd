@@ -220,4 +220,5 @@ if __name__ == "__main__":
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     if use_cuda:
         ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
+        print('using gpu')
     experiment(variant)

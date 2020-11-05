@@ -130,6 +130,7 @@ def experiment(variant):
             target_qf2=target_qf2,
             rnd_network = rnd_network,
             rnd_target_network = rnd_target_network,
+            beta = variant['rnd_beta'],
             **variant['trainer_kwargs']
         )
 
@@ -165,6 +166,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     parser.add_argument('--rnd', action='store_true', default=False, help='rnd traning')
+    parser.add_argument('--beta', default=1e3, type=float)
+
 
     parser.add_argument("--gpu", default='0', type=str)
     parser.add_argument('--qf_lr', default=3e-4, type=float)
@@ -179,6 +182,7 @@ if __name__ == "__main__":
         algorithm="SAC",
         rnd = args.rnd,
         rnd_path = rnd_path,
+        rnd_beta = args.beta,
         version="normal",
         layer_size=256,
         replay_buffer_size=int(1E6),
@@ -203,11 +207,10 @@ if __name__ == "__main__":
             policy_lr=args.policy_lr,
             qf_lr=args.qf_lr,
             reward_scale=1,
-            use_automatic_entropy_tuning=True,
-        ),
+            use_automatic_entropy_tuning=True,        ),
     )
     if args.rnd:
-        exp_name = 'sac_d4rl_rnd_{}'.format(args.env)
+        exp_name = 'sac_d4rl_rnd_{}_{:.2g}'.format(args.env, args.beta)
     else:
         exp_name = 'sac_d4rl_{}'.format(args.env)
     print(' experiment:{}'.format(exp_name))

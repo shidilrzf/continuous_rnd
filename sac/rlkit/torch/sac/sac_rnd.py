@@ -21,6 +21,7 @@ class SAC_RNDTrainer(TorchTrainer):
             target_qf2,
             rnd_network,
             rnd_target_network,
+            beta,
 
             discount=0.99,
             reward_scale=1.0,
@@ -47,7 +48,7 @@ class SAC_RNDTrainer(TorchTrainer):
 
         self.rnd_network = rnd_network
         self.rnd_target_network = rnd_target_network
-        self.beta = 1e3
+        self.beta = beta
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period

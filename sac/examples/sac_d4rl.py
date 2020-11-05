@@ -167,6 +167,8 @@ if __name__ == "__main__":
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     parser.add_argument('--rnd', action='store_true', default=False, help='rnd traning')
     parser.add_argument('--beta', default=1e3, type=float)
+    parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
+
 
 
     parser.add_argument("--gpu", default='0', type=str)
@@ -177,7 +179,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # noinspection PyTypeChecker
-    rnd_path = '/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-03-2020_1648_halfcheetah-medium-v0.pt'
+    rnd_path = '{}RL/continuous_rnd/sac/examples/models/Nov-03-2020_1648_halfcheetah-medium-v0.pt'.format(args.rnd_path)
     variant = dict(
         algorithm="SAC",
         rnd = args.rnd,

@@ -96,7 +96,7 @@ def experiment(variant):
             output_size=1,
             hidden_sizes=[64, 64],
         )
-        checkpoint = torch.load(variant['rnd_path'])
+        checkpoint = torch.load(variant['rnd_path'], map_location=map_location)
         rnd_network.load_state_dict(checkpoint['network_state_dict'])
         rnd_target_network.load_state_dict(checkpoint['target_state_dict'])
         print('Loading rnd model: {}'.format(variant['rnd_path']))
@@ -221,4 +221,8 @@ if __name__ == "__main__":
     if use_cuda:
         ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
         print('using gpu')
+        map_location=lambda storage, loc: storage.cuda()
+    else:
+        map_location='cpu'
+
     experiment(variant)

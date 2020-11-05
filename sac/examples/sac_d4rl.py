@@ -63,27 +63,27 @@ def experiment(variant):
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     qf2 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     target_qf1 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     target_qf2 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     policy = TanhGaussianPolicy(
         obs_dim=obs_dim,
         action_dim=action_dim,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     if variant['rnd']:
         rnd_network = Mlp(
             input_size=obs_dim + action_dim,
@@ -222,7 +222,10 @@ if __name__ == "__main__":
         ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
         print('using gpu')
         map_location=lambda storage, loc: storage.cuda()
+        device = torch.device("cuda:0")
+
     else:
         map_location='cpu'
+        device = torch.device("cpu")
 
     experiment(variant)

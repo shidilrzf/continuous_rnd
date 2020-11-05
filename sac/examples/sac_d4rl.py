@@ -170,8 +170,7 @@ if __name__ == "__main__":
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
 
 
-
-    parser.add_argument("--gpu", default='0', type=str)
+    parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
     parser.add_argument('--qf_lr', default=3e-4, type=float)
     parser.add_argument('--policy_lr', default=1e-4, type=float)
     parser.add_argument('--num_samples', default=100, type=int)
@@ -217,5 +216,8 @@ if __name__ == "__main__":
         exp_name = 'sac_d4rl_{}'.format(args.env)
     print(' experiment:{}'.format(exp_name))
     setup_logger(exp_name, variant=variant, base_log_dir='logs/')
-    # ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
+
+    use_cuda = not args.no_cuda and torch.cuda.is_available()
+    if use_cuda:
+        ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
     experiment(variant)

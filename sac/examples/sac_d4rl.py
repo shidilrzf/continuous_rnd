@@ -166,7 +166,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     parser.add_argument('--rnd', action='store_true', default=False, help='rnd traning')
-    parser.add_argument('--beta', default=1e3, type=float)
+    parser.add_argument('--beta', default=1e4, type=float)
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
 
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     parser.add_argument('--qf_lr', default=3e-4, type=float)
     parser.add_argument('--policy_lr', default=1e-4, type=float)
     parser.add_argument('--num_samples', default=100, type=int)
-    parser.add_argument('--seed', default=0, type=int)
+    parser.add_argument('--seed', default=10, type=int)
     args = parser.parse_args()
     
     # noinspection PyTypeChecker
@@ -190,6 +190,7 @@ if __name__ == "__main__":
         buffer_filename=args.env, #halfcheetah_101000.pkl',
         load_buffer=True,
         env_name=args.env,
+        seed = args.seed,
         algorithm_kwargs=dict(
             num_epochs=3000,
             num_eval_steps_per_epoch=5000,
@@ -214,10 +215,12 @@ if __name__ == "__main__":
         exp_name = 'sac_d4rl_rnd_{}_{:.2g}'.format(args.env, args.beta)
     else:
         exp_name = 'sac_d4rl_{}'.format(args.env)
+
     print(' experiment:{}'.format(exp_name))
     setup_logger(exp_name, variant=variant, base_log_dir='logs/')
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
+
     if use_cuda:
         ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
         print('using gpu')

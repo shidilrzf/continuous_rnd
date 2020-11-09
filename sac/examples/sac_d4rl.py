@@ -63,39 +63,39 @@ def experiment(variant):
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    ).to(device)
+    ).to(ptu.device)
     qf2 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    ).to(device)
+    ).to(ptu.device)
     target_qf1 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    ).to(device)
+    ).to(ptu.device)
     target_qf2 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    ).to(device)
+    ).to(ptu.device)
     policy = TanhGaussianPolicy(
         obs_dim=obs_dim,
         action_dim=action_dim,
         hidden_sizes=[M, M],
-    ).to(device)
+    ).to(ptu.device)
     if variant['rnd']:
         rnd_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
             hidden_sizes=[64, 64],
-        ).to(device)
+        ).to(ptu.device)
 
         rnd_target_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
             hidden_sizes=[64, 64],
-        ).to(device)
+        ).to(ptu.device)
         checkpoint = torch.load(variant['rnd_path'], map_location=map_location)
         rnd_network.load_state_dict(checkpoint['network_state_dict'])
         rnd_target_network.load_state_dict(checkpoint['target_state_dict'])
@@ -175,6 +175,7 @@ if __name__ == "__main__":
     parser.add_argument('--policy_lr', default=1e-4, type=float)
     parser.add_argument('--num_samples', default=100, type=int)
     parser.add_argument('--seed', default=10, type=int)
+    parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
     
     # noinspection PyTypeChecker
@@ -222,13 +223,15 @@ if __name__ == "__main__":
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     if use_cuda:
-        ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
-        print('using gpu')
+        ptu.set_gpu_mode(True, args.device_id)  # optionally set the GPU (default=False)
+        print('using gpu:{}'.format(args.device_id))
         map_location=lambda storage, loc: storage.cuda()
-        device = torch.device("cuda:0")
+
 
     else:
         map_location='cpu'
-        device = torch.device("cpu")
+        ptu.set_gpu_mode(False)  # optionally set the GPU (default=False)
+
+
 
     experiment(variant)

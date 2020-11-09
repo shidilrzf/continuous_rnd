@@ -200,6 +200,7 @@ class BatchRLAlgorithm(BaseRLAlgorithm, metaclass=abc.ABCMeta):
 
         eval_returns = eval_util.get_average_returns(eval_paths)
         return eval_returns
+
     
     def plot_visualized_data(self, array_plus, array_minus, base_val, fig_label='None'):
         """Plot two kinds of visualizations here: 

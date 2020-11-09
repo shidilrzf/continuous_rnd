@@ -40,6 +40,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         self._start_epoch = 0
 
         self.post_epoch_funcs = []
+        self.best_rewrad = - np.Inf
 
     def train(self, start_epoch=0):
         self._start_epoch = start_epoch
@@ -55,6 +56,9 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         if not self.trainer.discrete:
             snapshot = self._get_snapshot()
             logger.save_itr_params(epoch, snapshot)
+            # if snapshot['evaluation/Average Returns'] >= self.best_rewrad:
+            #     self.best_rewrad = snapshot['evaluation/Average Returns']
+                
             gt.stamp('saving')
         self._log_stats(epoch)
 

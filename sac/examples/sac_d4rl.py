@@ -89,13 +89,13 @@ def experiment(variant):
             input_size=obs_dim + action_dim,
             output_size=1,
             hidden_sizes=[64, 64],
-        )
+        ).to(device)
 
         rnd_target_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
             hidden_sizes=[64, 64],
-        )
+        ).to(device)
         checkpoint = torch.load(variant['rnd_path'], map_location=map_location)
         rnd_network.load_state_dict(checkpoint['network_state_dict'])
         rnd_target_network.load_state_dict(checkpoint['target_state_dict'])

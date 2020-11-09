@@ -2,6 +2,7 @@ import abc
 from collections import OrderedDict
 
 import gtimer as gt
+import numpy as np
 
 from rlkit.core import logger, eval_util
 from rlkit.data_management.replay_buffer import ReplayBuffer
@@ -58,7 +59,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             logger.save_itr_params(epoch, snapshot)
             # if snapshot['evaluation/Average Returns'] >= self.best_rewrad:
             #     self.best_rewrad = snapshot['evaluation/Average Returns']
-                
+
             gt.stamp('saving')
         self._log_stats(epoch)
 

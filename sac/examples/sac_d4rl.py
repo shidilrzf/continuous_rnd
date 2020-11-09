@@ -225,7 +225,7 @@ if __name__ == "__main__":
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     if use_cuda:
-        ptu.set_gpu_mode(True, args.device_id)  # optionally set the GPU (default=False)
+        ptu.set_gpu_mode(True, gpu_id=args.device_id)  # optionally set the GPU (default=False)
         print('using gpu:{}'.format(args.device_id))
         map_location=lambda storage, loc: storage.cuda()
 

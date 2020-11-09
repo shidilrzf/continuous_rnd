@@ -73,7 +73,7 @@ if __name__ == "__main__":
     parser.add_argument('--seed', default=0, type=int)
     # cuda
     parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
-    
+    parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
     
     env = gym.make(args.env)
@@ -98,7 +98,9 @@ if __name__ == "__main__":
 
     torch.manual_seed(args.seed)
     if use_cuda:
-        device = torch.device("cuda:0")
+        device = torch.device("cuda")
+        torch.cuda.set_device(args.device_id)
+        print('GPU')
     else:
         device = torch.device("cpu")
 
@@ -120,13 +122,13 @@ if __name__ == "__main__":
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
 
     target_network = Mlp(
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-    )
+    ).to(device)
     for param in target_network.parameters():
             param.requires_grad = False
     optimizer = optim.Adam(network.parameters(), lr=args.lr)

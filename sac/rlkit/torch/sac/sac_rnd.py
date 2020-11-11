@@ -22,6 +22,8 @@ class SAC_RNDTrainer(TorchTrainer):
             rnd_network,
             rnd_target_network,
             beta,
+            use_rnd_critic,
+            use_rnd_policy,
 
             discount=0.99,
             reward_scale=1.0,
@@ -49,6 +51,10 @@ class SAC_RNDTrainer(TorchTrainer):
         self.rnd_network = rnd_network
         self.rnd_target_network = rnd_target_network
         self.beta = beta
+
+        # type of adding rnd to critic or policy
+        self.use_rnd_critic = use_rnd_critic
+        self.use_rnd_policy = use_rnd_policy
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period
@@ -120,6 +126,13 @@ class SAC_RNDTrainer(TorchTrainer):
             self.qf1(obs, new_obs_actions),
             self.qf2(obs, new_obs_actions),
         )
+        # use rnd in policy
+        if self.use_rnd_policy:
+            with torch.no_grad():
+                obs_act_data = torch.cat((obs, new_obs_actions), dim=1)
+                bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
+            q_new_actions = q_new_actions - self.beta * bonus
+
         policy_loss = (alpha*log_pi - q_new_actions).mean()
 
         """
@@ -131,14 +144,18 @@ class SAC_RNDTrainer(TorchTrainer):
         new_next_actions, _, _, new_log_pi, *_ = self.policy(
             next_obs, reparameterize=True, return_log_prob=True,
         )
-        with torch.no_grad():
-            obs_act_data = torch.cat((next_obs, new_next_actions), dim=1)
-            bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
+        
         target_q_values = torch.min(
             self.target_qf1(next_obs, new_next_actions),
             self.target_qf2(next_obs, new_next_actions),
         ) - alpha * new_log_pi
-        target_q_values = target_q_values - self.beta * bonus
+
+        # use rnd in critic
+        if self.use_rnd_critic:
+            with torch.no_grad():
+                obs_act_data = torch.cat((next_obs, new_next_actions), dim=1)
+                bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
+            target_q_values = target_q_values - self.beta * bonus
 
         q_target = self.reward_scale * rewards + (1. - terminals) * self.discount * target_q_values
         qf1_loss = self.qf_criterion(q1_pred, q_target.detach())

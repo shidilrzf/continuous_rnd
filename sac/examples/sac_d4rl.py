@@ -131,6 +131,8 @@ def experiment(variant):
             rnd_network = rnd_network,
             rnd_target_network = rnd_target_network,
             beta = variant['rnd_beta'],
+            use_rnd_critic = variant['use_rnd_critic'],
+            use_rnd_policy = variant['use_rnd_policy'],
             **variant['trainer_kwargs']
         )
 
@@ -169,6 +171,7 @@ if __name__ == "__main__":
     parser.add_argument('--beta', default=1e4, type=float)
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
     parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt')
+    parser.add_argument('--rnd_type', default='critic', type=str)
 
 
 
@@ -214,13 +217,31 @@ if __name__ == "__main__":
             reward_scale=1,
             use_automatic_entropy_tuning=True,        ),
     )
+    # rnd and the type
     if args.rnd:
-        exp_name = 'sac_d4rl_rnd_{}_{:.2g}'.format(args.env, args.beta)
-    else:
-        exp_name = 'sac_d4rl_{}'.format(args.env)
+        exp_dir = '{}/rnd/{}_{:.2g}_{}'.format(args.env, args.rnd_type, args.beta, args.seed)
 
-    print(' experiment:{}'.format(exp_name))
-    setup_logger(exp_name, variant=variant, base_log_dir='logs/')
+        if args.rnd_type = 'actor-critic':
+
+            variant["use_rnd_policy"] = True
+            variant["use_rnd_critic"] = True
+        elif args.rnd_type = 'critic':    
+
+            variant["use_rnd_critic"] = True
+            variant["use_rnd_policy"] = False
+
+        else:
+            variant["use_rnd_policy"] = True
+            variant["use_rnd_critic"] = False
+
+    else:
+        exp_dir = '{}/offline/'.format(args.env)
+
+
+    print('experiment:{}'.format(exp_name))
+    # setup_logger(exp_name, variant=variant, base_log_dir='logs/')
+    setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
+
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 

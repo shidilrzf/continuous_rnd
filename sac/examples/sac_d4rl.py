@@ -221,11 +221,11 @@ if __name__ == "__main__":
     if args.rnd:
         exp_dir = '{}/rnd/{}_{:.2g}_{}'.format(args.env, args.rnd_type, args.beta, args.seed)
 
-        if args.rnd_type = 'actor-critic':
+        if args.rnd_type == 'actor-critic':
 
             variant["use_rnd_policy"] = True
             variant["use_rnd_critic"] = True
-        elif args.rnd_type = 'critic':    
+        elif args.rnd_type == 'critic':    
 
             variant["use_rnd_critic"] = True
             variant["use_rnd_policy"] = False

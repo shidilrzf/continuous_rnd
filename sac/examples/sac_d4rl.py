@@ -238,7 +238,7 @@ if __name__ == "__main__":
         exp_dir = '{}/offline/'.format(args.env)
 
 
-    print('experiment:{}'.format(exp_name))
+    print('experiment dir:logs/{}'.format(exp_dir))
     # setup_logger(exp_name, variant=variant, base_log_dir='logs/')
     setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
 

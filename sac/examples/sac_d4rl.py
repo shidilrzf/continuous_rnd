@@ -275,7 +275,7 @@ if __name__ == "__main__":
 
 
     else:
-        exp_dir = '{}/offline/{}'.format(args.env, timestamp)
+        exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)
 
 
     print('experiment dir:logs/{}'.format(exp_dir))

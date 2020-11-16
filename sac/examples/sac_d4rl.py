@@ -269,13 +269,13 @@ if __name__ == "__main__":
         if args.kl:
             exp_dir = '{}_kl'.format(exp_dir)
             variant["KL"] = True
-    
+
         else:
             exp_dir = '{}_{}'.format(exp_dir, args.beta)
 
 
     else:
-        exp_dir = '{}/offline/'.format(args.env)
+        exp_dir = '{}/offline/{}'.format(args.env, timestamp)
 
 
     print('experiment dir:logs/{}'.format(exp_dir))

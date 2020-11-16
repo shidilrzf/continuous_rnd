@@ -189,7 +189,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     parser.add_argument('--rnd', action='store_true', default=False, help='rnd traning')
-    parser.add_argument('--beta', default=1e4, type=float)
+    parser.add_argument('--beta', default=5e3, type=float)
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
     parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt')
     parser.add_argument('--rnd_type', default='critic', type=str)
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     timestamp = time.strftime('%b-%d-%Y_%H%M', t)
     # rnd and the type
     if args.rnd:
-        exp_dir = '{}/rnd_{}/{}_{:.2g}_{}'.format(args.env, timestamp, args.rnd_type, args.beta, args.seed)
+        exp_dir = '{}/rnd_{}/{}_{}'.format(args.env, timestamp, args.rnd_type, args.beta, args.seed)
 
         
         if args.rnd_type == 'actor-critic':
@@ -269,6 +269,10 @@ if __name__ == "__main__":
         if args.kl:
             exp_dir = '{}_kl'.format(exp_dir)
             variant["KL"] = True
+    
+        else:
+            exp_dir = '{}_{}'.format(exp_dir, args.beta)
+
 
     else:
         exp_dir = '{}/offline/'.format(args.env)

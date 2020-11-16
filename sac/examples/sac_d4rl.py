@@ -21,6 +21,7 @@ import gym
 import d4rl
 import numpy as np
 import torch
+import time
 
 
 
@@ -123,21 +124,9 @@ def experiment(variant):
     load_hdf5(eval_env.unwrapped.get_dataset(), replay_buffer, max_size=variant['replay_buffer_size'])
 
     if variant['rnd']:
-        # trainer = SAC_RNDTrainer(
-        #     env=eval_env,
-        #     policy=policy,
-        #     qf1=qf1,
-        #     qf2=qf2,
-        #     target_qf1=target_qf1,
-        #     target_qf2=target_qf2,
-        #     rnd_network = rnd_network,
-        #     rnd_target_network = rnd_target_network,
-        #     beta = variant['rnd_beta'],
-        #     use_rnd_critic = variant['use_rnd_critic'],
-        #     use_rnd_policy = variant['use_rnd_policy'],
-        #     **variant['trainer_kwargs']
-        # )
-        trainer = SAC_RNDTrainerReg(
+        if variant['KL']:
+
+            trainer = SAC_RNDTrainerReg(
             env=eval_env,
             policy=policy,
             qf1=qf1,
@@ -146,9 +135,26 @@ def experiment(variant):
             target_qf2=target_qf2,
             rnd_network = rnd_network,
             rnd_target_network = rnd_target_network,
-            beta = variant['rnd_beta'],
+            device = ptu.device,
             **variant['trainer_kwargs']
         )
+        else:
+            trainer = SAC_RNDTrainer(
+                env=eval_env,
+                policy=policy,
+                qf1=qf1,
+                qf2=qf2,
+                target_qf1=target_qf1,
+                target_qf2=target_qf2,
+                rnd_network = rnd_network,
+                rnd_target_network = rnd_target_network,
+                beta = variant['rnd_beta'],
+                use_rnd_critic = variant['use_rnd_critic'],
+                use_rnd_policy = variant['use_rnd_policy'],
+                device = ptu.device,
+                **variant['trainer_kwargs']
+            )
+        
 
 
     else:
@@ -187,6 +193,8 @@ if __name__ == "__main__":
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/')
     parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt')
     parser.add_argument('--rnd_type', default='critic', type=str)
+    parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
+
 
 
 
@@ -198,7 +206,7 @@ if __name__ == "__main__":
     parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
     
-    # noinspection PyTypeChecker
+    # noinspection 
     rnd_path = '{}RL/continuous_rnd/sac/examples/models/{}'.format(args.rnd_path, args.rnd_model)
     variant = dict(
         algorithm="SAC",
@@ -212,6 +220,11 @@ if __name__ == "__main__":
         load_buffer=True,
         env_name=args.env,
         seed = args.seed,
+        # rnd_type
+        use_rnd_policy = False,
+        use_rnd_critic = False,
+        KL = False,
+
         algorithm_kwargs=dict(
             num_epochs=3000,
             num_eval_steps_per_epoch=5000,
@@ -232,22 +245,30 @@ if __name__ == "__main__":
             reward_scale=1,
             use_automatic_entropy_tuning=True,        ),
     )
+
+    # timestapms
+    t = time.localtime()
+    timestamp = time.strftime('%b-%d-%Y_%H%M', t)
     # rnd and the type
     if args.rnd:
-        exp_dir = '{}/rnd/{}_{:.2g}_{}'.format(args.env, args.rnd_type, args.beta, args.seed)
+        exp_dir = '{}/rnd_{}/{}_{:.2g}_{}'.format(args.env, timestamp, args.rnd_type, args.beta, args.seed)
 
+        
         if args.rnd_type == 'actor-critic':
 
             variant["use_rnd_policy"] = True
             variant["use_rnd_critic"] = True
+
         elif args.rnd_type == 'critic':    
 
             variant["use_rnd_critic"] = True
-            variant["use_rnd_policy"] = False
 
         else:
             variant["use_rnd_policy"] = True
-            variant["use_rnd_critic"] = False
+
+        if args.kl:
+            exp_dir = '{}_kl'.format(exp_dir)
+            variant["KL"] = True
 
     else:
         exp_dir = '{}/offline/'.format(args.env)

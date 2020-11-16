@@ -25,6 +25,8 @@ class SAC_RNDTrainer(TorchTrainer):
             use_rnd_critic,
             use_rnd_policy,
 
+            device,
+
             discount=0.99,
             reward_scale=1.0,
 

@@ -23,6 +23,8 @@ class SAC_RNDTrainerReg(TorchTrainer):
             rnd_target_network,
             beta,
 
+            device,
+
             discount=0.99,
             reward_scale=1.0,
 
@@ -54,6 +56,9 @@ class SAC_RNDTrainerReg(TorchTrainer):
 
         # logsumexp
         self.num_random = 10
+
+        # device
+        self.device = device
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period
@@ -150,7 +155,7 @@ class SAC_RNDTrainerReg(TorchTrainer):
         )
         # use rnd in policy
         # define uniform and policy based actions
-        actor_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1) # .cuda()
+        actor_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1).to(self.device) # .cuda()
         actor_policy_actions_tensor, actor_policy_log_pi = self._get_policy_actions(obs, num_actions=self.num_random, network=self.policy)
         
         # define density
@@ -189,7 +194,7 @@ class SAC_RNDTrainerReg(TorchTrainer):
         ) - alpha * new_log_pi
 
         # use rnd in critic
-        critic_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1) # .cuda()
+        critic_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1).to(self.device) # .cuda()
         critic_policy_actions_tensor, critic_policy_log_pi = self._get_policy_actions(next_obs, num_actions=self.num_random, network=self.policy)
 
         uniform_density = np.log(0.5 ** new_next_actions.shape[-1])

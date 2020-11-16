@@ -8,6 +8,8 @@ from rlkit.samplers.data_collector import MdpPathCollector, CustomMDPPathCollect
 from rlkit.torch.sac.policies import TanhGaussianPolicy, MakeDeterministic
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
+from rlkit.torch.sac.sac_rnd_reg import SAC_RNDTrainerReg
+
 from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.networks import Mlp
 
@@ -121,7 +123,21 @@ def experiment(variant):
     load_hdf5(eval_env.unwrapped.get_dataset(), replay_buffer, max_size=variant['replay_buffer_size'])
 
     if variant['rnd']:
-        trainer = SAC_RNDTrainer(
+        # trainer = SAC_RNDTrainer(
+        #     env=eval_env,
+        #     policy=policy,
+        #     qf1=qf1,
+        #     qf2=qf2,
+        #     target_qf1=target_qf1,
+        #     target_qf2=target_qf2,
+        #     rnd_network = rnd_network,
+        #     rnd_target_network = rnd_target_network,
+        #     beta = variant['rnd_beta'],
+        #     use_rnd_critic = variant['use_rnd_critic'],
+        #     use_rnd_policy = variant['use_rnd_policy'],
+        #     **variant['trainer_kwargs']
+        # )
+        trainer = SAC_RNDTrainerReg(
             env=eval_env,
             policy=policy,
             qf1=qf1,
@@ -131,10 +147,9 @@ def experiment(variant):
             rnd_network = rnd_network,
             rnd_target_network = rnd_target_network,
             beta = variant['rnd_beta'],
-            use_rnd_critic = variant['use_rnd_critic'],
-            use_rnd_policy = variant['use_rnd_policy'],
             **variant['trainer_kwargs']
         )
+
 
     else:
         trainer = SACTrainer(

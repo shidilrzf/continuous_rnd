@@ -48,11 +48,9 @@ class SAC_RNDTrainerReg(TorchTrainer):
 
         self.rnd_network = rnd_network
         self.rnd_target_network = rnd_target_network
-        self.beta = beta
 
-        # type of adding rnd to critic or policy
-        self.use_rnd_critic = use_rnd_critic
-        self.use_rnd_policy = use_rnd_policy
+        self.beta1 = 0.8
+        self.beta2 = 0.5
 
         # logsumexp
         self.num_random = 10
@@ -105,11 +103,21 @@ class SAC_RNDTrainerReg(TorchTrainer):
         obs_temp = obs.unsqueeze(1).repeat(1, num_repeat, 1).view(obs.shape[0] * num_repeat, obs.shape[1])
         # feed to the bonus networks
         obs_act_data = torch.cat((obs_temp, actions), dim=1)
-        with torch.no_grad()
+        with torch.no_grad():
             bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
         # reshape
         bonus = bonus.view(obs.shape[0], num_repeat, 1)
         return bonus
+    
+    def _get_policy_actions(self, obs, num_actions, network=None):
+        obs_temp = obs.unsqueeze(1).repeat(1, num_actions, 1).view(obs.shape[0] * num_actions, obs.shape[1])
+        new_obs_actions, _, _, new_obs_log_pi, *_ = network(
+            obs_temp, reparameterize=True, return_log_prob=True,
+        )
+        if not self.discrete:
+            return new_obs_actions, new_obs_log_pi.view(obs.shape[0], num_actions, 1)
+        else:
+            return new_obs_actions
 
     def train_from_torch(self, batch):
 
@@ -141,23 +149,28 @@ class SAC_RNDTrainerReg(TorchTrainer):
             self.qf2(obs, new_obs_actions),
         )
         # use rnd in policy
-        uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1], dtype=actions.dtype).uniform_(-1, 1) # .cuda()
-        random_density = np.log(0.5 ** new_obs_actions.shape[-1])
+        # define uniform and policy based actions
+        actor_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1) # .cuda()
+        actor_policy_actions_tensor, actor_policy_log_pi = self._get_policy_actions(obs, num_actions=self.num_random, network=self.policy)
+        
+        # define density
+        uniform_density = np.log(0.5 ** actions.shape[-1])
 
+        # get the bonus for both 
         with torch.no_grad():
-            bonus_uniform = self._get_tensor_values(obs, random_actions_tensor)
-            bonus_policy_actions = self._get_tensor_values(obs, new_obs_actions)
+            actor_bonus_uniform = self._get_tensor_values(obs, actor_uniform_actions_tensor)
+            actor_bonus_policy_actions = self._get_tensor_values(obs, actor_policy_actions_tensor)
 
             # bonus itself
-            obs_act_data = torch.cat((obs, new_obs_actions), dim=1)
-            bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
+            actor_bonus_data = torch.cat((obs, new_obs_actions), dim=1)
+            actor_bonus = abs(self.rnd_network(actor_bonus_data) - self.rnd_target_network(actor_bonus_data))
 
-        cat_bonus = torch.cat([bonus_uniform - random_density, bonus_policy_actions.unsqueeze(1) - log_pi.detach()], 1)
-        bonus_loss = - self.beta * bonus - alpha * torch.logsumexp(- (self.beta * cat_bonus)/ alpha, dim=1).mean() 
+        actor_cat_bonus = torch.cat([actor_bonus_uniform - uniform_density, actor_bonus_policy_actions - actor_policy_log_pi.detach()], 1)
+        actor_bonus_loss = - self.beta1 * actor_bonus - alpha * torch.logsumexp(- (self.beta1 * actor_cat_bonus)/ alpha, dim=1) 
         
         # q_new_actions = q_new_actions - self.beta * bonus
 
-        policy_loss = (alpha*log_pi - (q_new_actions + bonus_loss)).mean()
+        policy_loss = (alpha*log_pi - (q_new_actions + actor_bonus_loss)).mean()
 
         """
 
@@ -176,21 +189,23 @@ class SAC_RNDTrainerReg(TorchTrainer):
         ) - alpha * new_log_pi
 
         # use rnd in critic
-        uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1], dtype=actions.dtype).uniform_(-1, 1) # .cuda()
-        random_density = np.log(0.5 ** new_next_actions.shape[-1])
+        critic_uniform_actions_tensor = torch.FloatTensor(actions.shape[0] * self.num_random, actions.shape[-1]).uniform_(-1, 1) # .cuda()
+        critic_policy_actions_tensor, critic_policy_log_pi = self._get_policy_actions(next_obs, num_actions=self.num_random, network=self.policy)
+
+        uniform_density = np.log(0.5 ** new_next_actions.shape[-1])
 
         with torch.no_grad():
-            bonus_uniform = self._get_tensor_values(next_obs, random_actions_tensor)
-            bonus_policy_actions = self._get_tensor_values(next_obs, new_next_actions)
+            critic_bonus_uniform = self._get_tensor_values(next_obs, critic_uniform_actions_tensor)
+            critic_bonus_policy_actions = self._get_tensor_values(next_obs, critic_policy_actions_tensor)
 
             # bonus itself
-            obs_act_data = torch.cat((next_obs, new_next_actions), dim=1)
-            bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
+            critic_bonus_data = torch.cat((next_obs, new_next_actions), dim=1)
+            critic_bonus = abs(self.rnd_network(critic_bonus_data) - self.rnd_target_network(critic_bonus_data))
 
-        cat_bonus = torch.cat([bonus_uniform - random_density, bonus_policy_actions.unsqueeze(1) - new_log_pi.detach()], 1)
-        bonus_loss = - self.beta * bonus - alpha * torch.logsumexp(- (self.beta * cat_bonus)/ alpha, dim=1).mean() 
+        cat_bonus = torch.cat([critic_bonus_uniform - uniform_density, critic_bonus_policy_actions - critic_policy_log_pi.detach()], 1)
+        critic_bonus_loss = - self.beta2 * critic_bonus - alpha * torch.logsumexp(- (self.beta2 * cat_bonus)/ alpha, dim=1)
 
-        target_q_values = target_q_values + bonus_loss
+        target_q_values = target_q_values + critic_bonus_loss
 
         q_target = self.reward_scale * rewards + (1. - terminals) * self.discount * target_q_values
         qf1_loss = self.qf_criterion(q1_pred, q_target.detach())

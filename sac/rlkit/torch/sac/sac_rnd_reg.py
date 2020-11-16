@@ -21,7 +21,6 @@ class SAC_RNDTrainerReg(TorchTrainer):
             target_qf2,
             rnd_network,
             rnd_target_network,
-            beta,
 
             device,
 

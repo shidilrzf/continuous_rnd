@@ -170,7 +170,7 @@ class SAC_RNDTrainerReg(TorchTrainer):
             actor_bonus = abs(self.rnd_network(actor_bonus_data) - self.rnd_target_network(actor_bonus_data))
 
         actor_cat_bonus = torch.cat([actor_bonus_uniform - uniform_density, actor_bonus_policy_actions - actor_policy_log_pi.detach()], 1)
-        actor_bonus_loss = - self.beta1 * actor_bonus - alpha * torch.logsumexp(- (self.beta1 * actor_cat_bonus)/ alpha, dim=1) 
+        actor_bonus_loss = - self.beta1 * actor_bonus - alpha * torch.logsumexp(-(self.beta1 /alpha) * actor_cat_bonus, dim=1) 
         
         # q_new_actions = q_new_actions - self.beta * bonus
 
@@ -206,8 +206,8 @@ class SAC_RNDTrainerReg(TorchTrainer):
             critic_bonus_data = torch.cat((next_obs, new_next_actions), dim=1)
             critic_bonus = abs(self.rnd_network(critic_bonus_data) - self.rnd_target_network(critic_bonus_data))
 
-        cat_bonus = torch.cat([critic_bonus_uniform - uniform_density, critic_bonus_policy_actions - critic_policy_log_pi.detach()], 1)
-        critic_bonus_loss = - self.beta2 * critic_bonus - alpha * torch.logsumexp(- (self.beta2 * cat_bonus)/ alpha, dim=1)
+        critic_cat_bonus = torch.cat([critic_bonus_uniform - uniform_density, critic_bonus_policy_actions - critic_policy_log_pi.detach()], 1)
+        critic_bonus_loss = - self.beta2 * critic_bonus - alpha * torch.logsumexp(- (self.beta2 / alpha) * critic_cat_bonus, dim=1)
 
         target_q_values = target_q_values + critic_bonus_loss
 

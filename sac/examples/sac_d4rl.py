@@ -8,7 +8,7 @@ from rlkit.samplers.data_collector import MdpPathCollector, CustomMDPPathCollect
 from rlkit.torch.sac.policies import TanhGaussianPolicy, MakeDeterministic
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
-from rlkit.torch.sac.sac_rnd_reg import SAC_RNDTrainerReg
+from rlkit.torch.sac.sac_rnd_kl import SAC_RNDTrainerKL
 
 from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.networks import Mlp
@@ -64,6 +64,7 @@ def experiment(variant):
     action_dim = eval_env.action_space.low.size
 
     M = variant['layer_size']
+    # q and policy netwroks
     qf1 = FlattenMlp(
         input_size=obs_dim + action_dim,
         output_size=1,
@@ -89,6 +90,8 @@ def experiment(variant):
         action_dim=action_dim,
         hidden_sizes=[M, M],
     ).to(ptu.device)
+
+    # if rnd: define rnd networks
     if variant['rnd']:
         rnd_network = Mlp(
             input_size=obs_dim + action_dim,
@@ -106,6 +109,7 @@ def experiment(variant):
         rnd_target_network.load_state_dict(checkpoint['target_state_dict'])
         print('Loading rnd model: {}'.format(variant['rnd_path']))
 
+    
     eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
         eval_env,
@@ -129,7 +133,7 @@ def experiment(variant):
     if variant['rnd']:
         if variant['KL']:
 
-            trainer = SAC_RNDTrainerReg(
+            trainer = SAC_RNDTrainerKL(
                 env=eval_env,
                 policy=policy,
                 qf1=qf1,
@@ -187,25 +191,19 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
-    parser.add_argument('--rnd', action='store_true',
-                        default=False, help='rnd traning')
-    parser.add_argument('--beta', default=5e3, type=float)
-    parser.add_argument("--rnd_path", type=str,
-                        default='/usr/local/google/home/shideh/')
-    parser.add_argument("--rnd_model", type=str,
-                        default='Nov-03-2020_1648_halfcheetah-medium-v0.pt')
-    parser.add_argument('--rnd_type', default='critic', type=str)
-    parser.add_argument('--kl', action='store_true',
-                        default=False, help='use bonus in KL regularized way')
+    parser.add_argument('--rnd', action='store_true', default=False, help='use rnd in sac')
+    parser.add_argument('--beta', default=5e3, type=float, help='beta for the bonus')
+    parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/', help='path to the rnd model')
+    parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt', help='name of the rnd model')
+    parser.add_argument('--rnd_type', type=str , default='critic', help='use rnd in actor, critic or both')
+    parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
 
-    parser.add_argument('--no-cuda', action='store_true',
-                        default=False, help='disables cuda (default: False')
+    parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
     parser.add_argument('--qf_lr', default=3e-4, type=float)
     parser.add_argument('--policy_lr', default=1e-4, type=float)
     parser.add_argument('--num_samples', default=100, type=int)
     parser.add_argument('--seed', default=10, type=int)
-    parser.add_argument('--device-id', type=int, default=0,
-                        help='GPU device id (default: 0')
+    parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
 
     # noinspection
@@ -256,7 +254,7 @@ if __name__ == "__main__":
     if args.rnd:
         exp_dir = '{}/rnd_{}/{}_{}'.format(args.env,
                                            timestamp, args.rnd_type, args.seed)
-
+        # use rnd in actor, critic or both
         if args.rnd_type == 'actor-critic':
 
             variant["use_rnd_policy"] = True
@@ -269,20 +267,24 @@ if __name__ == "__main__":
         else:
             variant["use_rnd_policy"] = True
 
+
         if args.kl:
+            # use rnd as KL: -\beta * b - \tau * lse (- \tau * b / \beta)
             exp_dir = '{}_kl'.format(exp_dir)
             variant["KL"] = True
 
         else:
+            # use rnd as KL: -\beta * b 
             exp_dir = '{0}_{1:.2g}'.format(exp_dir, args.beta)
 
     else:
         exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)
 
+    # setup the logger
     print('experiment dir:logs/{}'.format(exp_dir))
-    # setup_logger(exp_name, variant=variant, base_log_dir='logs/')
     setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
 
+    # cuda setup
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     if use_cuda:

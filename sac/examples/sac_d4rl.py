@@ -255,7 +255,7 @@ if __name__ == "__main__":
     # rnd and the type
     if args.rnd:
         exp_dir = '{}/rnd_{}/{}_{}'.format(args.env,
-                                           timestamp, args.rnd_type, args.beta, args.seed)
+                                           timestamp, args.rnd_type, args.seed)
 
         if args.rnd_type == 'actor-critic':
 
@@ -274,7 +274,7 @@ if __name__ == "__main__":
             variant["KL"] = True
 
         else:
-            exp_dir = '{}_{}'.format(exp_dir, args.beta)
+            exp_dir = '{}_{:2g}'.format(exp_dir, args.beta)
 
     else:
         exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)

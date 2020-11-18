@@ -130,9 +130,9 @@ class SAC_RNDTrainer(TorchTrainer):
         # use rnd in policy
         if self.use_rnd_policy:
             with torch.no_grad():
-                obs_act_data = torch.cat((obs, new_obs_actions), dim=1)
-                bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
-            q_new_actions = q_new_actions - (self.beta / 10) * bonus
+                actor_bonus_data = torch.cat((obs, new_obs_actions), dim=1)
+                actor_bonus = abs(self.rnd_network(actor_bonus_data) - self.rnd_target_network(actor_bonus_data))
+            q_new_actions = q_new_actions - self.beta * actor_bonus
 
         policy_loss = (alpha * log_pi - q_new_actions).mean()
 
@@ -154,9 +154,9 @@ class SAC_RNDTrainer(TorchTrainer):
         # use rnd in critic
         if self.use_rnd_critic:
             with torch.no_grad():
-                obs_act_data = torch.cat((next_obs, new_next_actions), dim=1)
-                bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
-            target_q_values = target_q_values - self.beta * bonus
+                critic_bonus_data = torch.cat((next_obs, new_next_actions), dim=1)
+                critic_bonus = abs(self.rnd_network(critic_bonus_data) - self.rnd_target_network(critic_bonus_data))
+            target_q_values = target_q_values - self.beta * critic_bonus
 
         q_target = self.reward_scale * rewards + (1. - terminals) * self.discount * target_q_values
         qf1_loss = self.qf_criterion(q1_pred, q_target.detach())

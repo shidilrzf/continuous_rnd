@@ -274,7 +274,7 @@ if __name__ == "__main__":
             variant["KL"] = True
 
         else:
-            exp_dir = '{}_{:2g}'.format(exp_dir, args.beta)
+            exp_dir = '{}_{0:.2g}'.format(exp_dir, args.beta)
 
     else:
         exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)

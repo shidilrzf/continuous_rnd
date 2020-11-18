@@ -101,7 +101,6 @@ class SAC_RNDTrainer(TorchTrainer):
 
     def train_from_torch(self, batch):
 
-        
         rewards = batch['rewards']
         terminals = batch['terminals']
         obs = batch['observations']
@@ -133,9 +132,9 @@ class SAC_RNDTrainer(TorchTrainer):
             with torch.no_grad():
                 obs_act_data = torch.cat((obs, new_obs_actions), dim=1)
                 bonus = abs(self.rnd_network(obs_act_data) - self.rnd_target_network(obs_act_data))
-            q_new_actions = q_new_actions - self.beta * bonus
+            q_new_actions = q_new_actions - (self.beta / 10) * bonus
 
-        policy_loss = (alpha*log_pi - q_new_actions).mean()
+        policy_loss = (alpha * log_pi - q_new_actions).mean()
 
         """
         QF Loss
@@ -146,7 +145,7 @@ class SAC_RNDTrainer(TorchTrainer):
         new_next_actions, _, _, new_log_pi, *_ = self.policy(
             next_obs, reparameterize=True, return_log_prob=True,
         )
-        
+
         target_q_values = torch.min(
             self.target_qf1(next_obs, new_next_actions),
             self.target_qf2(next_obs, new_next_actions),
@@ -169,7 +168,7 @@ class SAC_RNDTrainer(TorchTrainer):
         self.policy_optimizer.zero_grad()
         policy_loss.backward()
         self.policy_optimizer.step()
-        
+
         self.qf1_optimizer.zero_grad()
         qf1_loss.backward()
         self.qf1_optimizer.step()
@@ -177,8 +176,6 @@ class SAC_RNDTrainer(TorchTrainer):
         self.qf2_optimizer.zero_grad()
         qf2_loss.backward()
         self.qf2_optimizer.step()
-
-            
 
         """
         Soft Updates
@@ -260,4 +257,3 @@ class SAC_RNDTrainer(TorchTrainer):
             target_qf1=self.qf1,
             target_qf2=self.qf2,
         )
-

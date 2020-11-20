@@ -24,7 +24,7 @@ import d4rl
 import numpy as np
 import torch
 import time
-import Pickle
+import _pickle as cPickle
 
 
 # def load_hdf5(dataset, replay_buffer, max_size):
@@ -141,7 +141,7 @@ def experiment(variant):
 
     if variant['dataset_path'] is not None:
         with open(variant['dataset_path'], "rb") as f:
-            dataset = Pickle.load(f)
+            dataset = cPickle.load(f)
     else:
         dataset = eval_env.unwrapped.get_dataset()
 

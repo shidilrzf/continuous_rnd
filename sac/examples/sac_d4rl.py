@@ -145,7 +145,7 @@ def experiment(variant):
     else:
         dataset = eval_env.unwrapped.get_dataset()
 
-    load_hdf5(dataset replay_buffer)
+    load_hdf5(dataset, replay_buffer)
 
     if variant['rnd']:
         if variant['KL']:

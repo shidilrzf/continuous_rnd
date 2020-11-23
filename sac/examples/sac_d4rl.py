@@ -27,47 +27,47 @@ import time
 import _pickle as cPickle
 
 
-# def load_hdf5(dataset, replay_buffer, max_size):
-#     all_obs = dataset['observations']
-#     all_act = dataset['actions']
-#     N = min(all_obs.shape[0], max_size)
+def load_hdf5(dataset, replay_buffer, max_size):
+    all_obs = dataset['observations']
+    all_act = dataset['actions']
+    N = min(all_obs.shape[0], max_size)
 
-#     _obs = all_obs[:N - 1]
-#     _actions = all_act[:N - 1]
-#     _next_obs = all_obs[1:]
-#     _rew = np.squeeze(dataset['rewards'][:N - 1])
-#     _rew = np.expand_dims(np.squeeze(_rew), axis=-1)
-#     _done = np.squeeze(dataset['terminals'][:N - 1])
-#     _done = (np.expand_dims(np.squeeze(_done), axis=-1)).astype(np.int32)
+    _obs = all_obs[:N - 1]
+    _actions = all_act[:N - 1]
+    _next_obs = all_obs[1:]
+    _rew = np.squeeze(dataset['rewards'][:N - 1])
+    _rew = np.expand_dims(np.squeeze(_rew), axis=-1)
+    _done = np.squeeze(dataset['terminals'][:N - 1])
+    _done = (np.expand_dims(np.squeeze(_done), axis=-1)).astype(np.int32)
 
-#     max_length = 1000
-#     ctr = 0
-#     # Only for MuJoCo environments
-#     # Handle the condition when terminal is not True and trajectory ends due to a timeout
-#     for idx in range(_obs.shape[0]):
-#         if ctr >= max_length - 1:
-#             ctr = 0
-#         else:
-#             replay_buffer.add_sample_only(
-#                 _obs[idx], _actions[idx], _rew[idx], _next_obs[idx], _done[idx])
-#             ctr += 1
-#             if _done[idx][0]:
-#                 ctr = 0
-#     ###
-
-#     print (replay_buffer._size, replay_buffer._terminals.shape)
-
-def load_hdf5(dataset, replay_buffer):
-    replay_buffer._observations = dataset['observations']
-    replay_buffer._next_obs = dataset['next_observations']
-    replay_buffer._actions = dataset['actions']
-    replay_buffer._rewards = np.expand_dims(np.squeeze(dataset['rewards']), 1)
-    replay_buffer._terminals = np.expand_dims(np.squeeze(dataset['terminals']), 1)
-    replay_buffer._size = dataset['terminals'].shape[0]
-    print ('Number of terminals on: ', replay_buffer._terminals.sum())
-    replay_buffer._top = replay_buffer._size
+    max_length = 1000
+    ctr = 0
+    # Only for MuJoCo environments
+    # Handle the condition when terminal is not True and trajectory ends due to a timeout
+    for idx in range(_obs.shape[0]):
+        if ctr >= max_length - 1:
+            ctr = 0
+        else:
+            replay_buffer.add_sample_only(
+                _obs[idx], _actions[idx], _rew[idx], _next_obs[idx], _done[idx])
+            ctr += 1
+            if _done[idx][0]:
+                ctr = 0
+    ###
 
     print (replay_buffer._size, replay_buffer._terminals.shape)
+
+# def load_hdf5(dataset, replay_buffer):
+#     replay_buffer._observations = dataset['observations']
+#     replay_buffer._next_obs = dataset['next_observations']
+#     replay_buffer._actions = dataset['actions']
+#     replay_buffer._rewards = np.expand_dims(np.squeeze(dataset['rewards']), 1)
+#     replay_buffer._terminals = np.expand_dims(np.squeeze(dataset['terminals']), 1)
+#     replay_buffer._size = dataset['terminals'].shape[0]
+#     print ('Number of terminals on: ', replay_buffer._terminals.sum())
+#     replay_buffer._top = replay_buffer._size
+
+#     print (replay_buffer._size, replay_buffer._terminals.shape)
 
 
 def experiment(variant):
@@ -139,13 +139,9 @@ def experiment(variant):
         expl_env,
     )
 
-    if variant['dataset_path'] is not None:
-        with open(variant['dataset_path'], "rb") as f:
-            dataset = cPickle.load(f)
-    else:
-        dataset = eval_env.unwrapped.get_dataset()
+    dataset = eval_env.unwrapped.get_dataset()
 
-    load_hdf5(dataset, replay_buffer)
+    load_hdf5(dataset, replay_buffer, max_size=variant['replay_buffer_size'])
 
     if variant['rnd']:
         if variant['KL']:
@@ -231,8 +227,6 @@ if __name__ == "__main__":
         args.rnd_path, args.rnd_model)
     variant = dict(
         algorithm="SAC",
-        # d4rl
-        dataset_path=args.dataset_path,
         # rnd
         rnd=args.rnd,
         rnd_path=rnd_path,

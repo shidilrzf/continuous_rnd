@@ -22,8 +22,8 @@ def train(network, target_network, dataloader, optimizer, epoch, use_cuda):
 
     loss_func = nn.MSELoss(reduction='sum')
 
-    network.train() 
-    desc = 'Train' 
+    network.train()
+    desc = 'Train'
 
     total_loss = 0
 
@@ -35,7 +35,6 @@ def train(network, target_network, dataloader, optimizer, epoch, use_cuda):
         act = act.cuda() if use_cuda else act
 
         data = torch.cat((obs, act), dim=1)
-
 
         predicted = network(data)
         target = target_network(data)
@@ -50,13 +49,9 @@ def train(network, target_network, dataloader, optimizer, epoch, use_cuda):
         batch_loss = loss.item() / obs.size(0)
         total_loss += loss.item()
 
-
         tqdm_bar.set_description('{} Epoch: [{}] Batch Loss: {:.2g}'.format(desc, epoch, batch_loss))
 
     return total_loss / (batch_idx + 1)
-
-    
-
 
 
 if __name__ == "__main__":
@@ -67,7 +62,7 @@ if __name__ == "__main__":
     # network
     parser.add_argument('--layer_size', default=64, type=int)
     # Optimizer
-    parser.add_argument('--epochs', type=int, default=5, metavar='N',help='number of training epochs')
+    parser.add_argument('--epochs', type=int, default=5, metavar='N', help='number of training epochs')
     parser.add_argument('--lr', type=float, default=3e-4, help='Learning rate (default: 2e-4')
     parser.add_argument('--batch-size', type=int, default=256, metavar='N', help='input training batch-size')
     parser.add_argument('--seed', default=0, type=int)
@@ -75,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
     parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
-    
+
     env = gym.make(args.env)
     obs_dim = env.observation_space.low.size
     action_dim = env.action_space.low.size
@@ -89,10 +84,13 @@ if __name__ == "__main__":
     obs = ds['observations']
     actions = ds['actions']
 
-    dataset = TensorDataset(torch.Tensor(obs), torch.Tensor(actions)) 
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False) 
+    obs_normalized = (obs - obs.mean(axis=0)) / obs.std(axis=0)
+    actions_normalized = (actions - actions.mean(axis=0)) / actions.std(axis=0)
 
-    # cuda 
+    dataset = TensorDataset(torch.Tensor(obs_normalized), torch.Tensor(actions_normalized))
+    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
+
+    # cuda
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     torch.cuda.empty_cache()
 
@@ -130,7 +128,7 @@ if __name__ == "__main__":
         hidden_sizes=[M, M],
     ).to(device)
     for param in target_network.parameters():
-            param.requires_grad = False
+        param.requires_grad = False
     optimizer = optim.Adam(network.parameters(), lr=args.lr)
 
     best_loss = np.Inf
@@ -145,12 +143,9 @@ if __name__ == "__main__":
 
             file_name = 'models/{}_{}.pt'.format(timestamp, args.env)
             torch.save({
-                            'epoch': epoch + 1,
-                            'network_state_dict': network.state_dict(),
-                            'target_state_dict': target_network.state_dict(),
-                            'optimizer_state_dict': optimizer.state_dict(),
-                            'train_loss': t_loss
-                            }, file_name)
-
-
-
+                'epoch': epoch + 1,
+                'network_state_dict': network.state_dict(),
+                'target_state_dict': target_network.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'train_loss': t_loss
+            }, file_name)

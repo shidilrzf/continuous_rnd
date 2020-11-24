@@ -64,6 +64,9 @@ class SAC_RNDTrainer(TorchTrainer):
         self.obs_mu, self.obs_std, self.act_mu, self.act_std = self.rnd_norm_param
         self.use_rnd_norm = self.obs_mu is not None
 
+        if self.use_rnd_norm:
+            print('.......Using normailization in rnd........')
+
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period
 

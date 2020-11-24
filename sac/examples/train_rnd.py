@@ -86,6 +86,7 @@ if __name__ == "__main__":
     obs = ds['observations']
     actions = ds['actions']
     if args.use_norm:
+        print('.. using normalization ..')
         obs = (obs - obs.mean(axis=0)) / obs.std(axis=0)
         actions = (actions - actions.mean(axis=0)) / actions.std(axis=0)
 
@@ -100,7 +101,7 @@ if __name__ == "__main__":
     if use_cuda:
         device = torch.device("cuda")
         torch.cuda.set_device(args.device_id)
-        print('GPU')
+        print('using GPU')
     else:
         device = torch.device("cpu")
 

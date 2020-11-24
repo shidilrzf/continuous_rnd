@@ -63,14 +63,15 @@ class SAC_RNDTrainer(TorchTrainer):
         self.use_rnd_policy = use_rnd_policy
 
         # normlization
-        self.obs_mu, self.obs_std, self.act_mu, self.act_std = rnd_norm_param
+        self.obs_mu, self.obs_std, self.actions_mu, self.actions_std = rnd_norm_param
         self.use_rnd_norm = self.obs_mu is not None
 
         if self.use_rnd_norm:
             print('.......Using normailization in rnd........')
-            print(type(self.obs_mu))
             self.obs_mu = ptu.from_numpy(self.obs_mu).to(device)
             self.obs_std = ptu.from_numpy(self.obs_std).to(device)
+            self.actions_mu = ptu.from_numpy(self.actions_mu).to(device)
+            self.actions_std = ptu.from_numpy(self.actions_std).to(device)
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period

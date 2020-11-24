@@ -25,6 +25,8 @@ class SAC_RNDTrainer(TorchTrainer):
             use_rnd_critic,
             use_rnd_policy,
 
+            rnd_norm_param,
+
             device,
 
             discount=0.99,
@@ -57,6 +59,10 @@ class SAC_RNDTrainer(TorchTrainer):
         # type of adding rnd to critic or policy
         self.use_rnd_critic = use_rnd_critic
         self.use_rnd_policy = use_rnd_policy
+
+        # normlization
+        self.obs_mu, self.obs_std, self.act_mu, self.act_std = self.rnd_norm_param
+        self.use_rnd_norm = self.obs_mu is not None
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period
@@ -99,6 +105,15 @@ class SAC_RNDTrainer(TorchTrainer):
         self._n_train_steps_total = 0
         self._need_to_update_eval_statistics = True
 
+    def _get_bonus(self, obs, actions):
+        if self.use_rnd_norm:
+            obs = (obs - self.obs_mu) / self.obs_std
+            actions = (actions - self.actions_mu) / self.actions_std
+        with torch.no_grad():
+            data = torch.cat((obs, actions), dim=1)
+            bonus = abs(self.rnd_network(data) - self.rnd_target_network(data))
+        return bonus
+
     def train_from_torch(self, batch):
 
         rewards = batch['rewards']
@@ -129,9 +144,7 @@ class SAC_RNDTrainer(TorchTrainer):
         )
         # use rnd in policy
         if self.use_rnd_policy:
-            with torch.no_grad():
-                actor_bonus_data = torch.cat((obs, new_obs_actions), dim=1)
-                actor_bonus = abs(self.rnd_network(actor_bonus_data) - self.rnd_target_network(actor_bonus_data))
+            actor_bonus = _get_bonus(obs, new_obs_actions)
             q_new_actions = q_new_actions - self.beta * actor_bonus
 
         policy_loss = (alpha * log_pi - q_new_actions).mean()
@@ -153,9 +166,7 @@ class SAC_RNDTrainer(TorchTrainer):
 
         # use rnd in critic
         if self.use_rnd_critic:
-            with torch.no_grad():
-                critic_bonus_data = torch.cat((next_obs, new_next_actions), dim=1)
-                critic_bonus = abs(self.rnd_network(critic_bonus_data) - self.rnd_target_network(critic_bonus_data))
+            critic_bonus = _get_bonus(next_obs, new_next_actions)
             target_q_values = target_q_values - self.beta * critic_bonus
 
         q_target = self.reward_scale * rewards + (1. - terminals) * self.discount * target_q_values

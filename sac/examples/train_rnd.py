@@ -66,6 +66,8 @@ if __name__ == "__main__":
     parser.add_argument('--lr', type=float, default=3e-4, help='Learning rate (default: 2e-4')
     parser.add_argument('--batch-size', type=int, default=256, metavar='N', help='input training batch-size')
     parser.add_argument('--seed', default=0, type=int)
+    # normalization
+    parser.add_argument('--use_norm', action='store_true', default=False, help='use norm')
     # cuda
     parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
     parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
@@ -83,11 +85,11 @@ if __name__ == "__main__":
     ds = env.get_dataset()
     obs = ds['observations']
     actions = ds['actions']
+    if args.use_norm:
+        obs = (obs - obs.mean(axis=0)) / obs.std(axis=0)
+        actions = (actions - actions.mean(axis=0)) / actions.std(axis=0)
 
-    obs_normalized = (obs - obs.mean(axis=0)) / obs.std(axis=0)
-    actions_normalized = (actions - actions.mean(axis=0)) / actions.std(axis=0)
-
-    dataset = TensorDataset(torch.Tensor(obs_normalized), torch.Tensor(actions_normalized))
+    dataset = TensorDataset(torch.Tensor(obs), torch.Tensor(actions))
     dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
 
     # cuda

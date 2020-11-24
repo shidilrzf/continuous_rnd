@@ -218,7 +218,7 @@ if __name__ == "__main__":
     parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt', help='name of the rnd model')
     parser.add_argument('--rnd_type', type=str, default='critic', help='use rnd in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
-    parser.add_argument('--rnd_use_norm', action='store_true', default=False, help='use bonus in KL regularized way')
+    parser.add_argument('--rnd_use_norm', action='store_true', default=False, help='use normalization in rnd')
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')

@@ -147,7 +147,7 @@ class SAC_RNDTrainer(TorchTrainer):
         )
         # use rnd in policy
         if self.use_rnd_policy:
-            actor_bonus = _get_bonus(obs, new_obs_actions)
+            actor_bonus = self._get_bonus(obs, new_obs_actions)
             q_new_actions = q_new_actions - self.beta * actor_bonus
 
         policy_loss = (alpha * log_pi - q_new_actions).mean()
@@ -169,7 +169,7 @@ class SAC_RNDTrainer(TorchTrainer):
 
         # use rnd in critic
         if self.use_rnd_critic:
-            critic_bonus = _get_bonus(next_obs, new_next_actions)
+            critic_bonus = self._get_bonus(next_obs, new_next_actions)
             target_q_values = target_q_values - self.beta * critic_bonus
 
         q_target = self.reward_scale * rewards + (1. - terminals) * self.discount * target_q_values

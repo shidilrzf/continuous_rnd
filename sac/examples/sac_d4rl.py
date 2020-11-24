@@ -150,6 +150,8 @@ def experiment(variant):
     else:
         rnd_norm_param = [None] * 4
 
+    # make rewrad positive
+    reward_norm_param = min(dataset['rewards'])
     if variant['rnd']:
         if variant['KL']:
 
@@ -179,6 +181,7 @@ def experiment(variant):
                 use_rnd_critic=variant['use_rnd_critic'],
                 use_rnd_policy=variant['use_rnd_policy'],
                 rnd_norm_param=rnd_norm_param,
+                reward_norm_param=reward_norm_param,
                 device=ptu.device,
                 **variant['trainer_kwargs']
             )

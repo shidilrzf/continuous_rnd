@@ -61,7 +61,7 @@ class SAC_RNDTrainer(TorchTrainer):
         self.use_rnd_policy = use_rnd_policy
 
         # normlization
-        self.obs_mu, self.obs_std, self.act_mu, self.act_std = self.rnd_norm_param
+        self.obs_mu, self.obs_std, self.act_mu, self.act_std = rnd_norm_param
         self.use_rnd_norm = self.obs_mu is not None
 
         if self.use_rnd_norm:

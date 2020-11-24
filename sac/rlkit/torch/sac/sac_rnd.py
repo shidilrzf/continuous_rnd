@@ -52,6 +52,8 @@ class SAC_RNDTrainer(TorchTrainer):
         self.target_qf1 = target_qf1
         self.target_qf2 = target_qf2
 
+        self.device = device
+
         self.rnd_network = rnd_network
         self.rnd_target_network = rnd_target_network
         self.beta = beta
@@ -66,6 +68,9 @@ class SAC_RNDTrainer(TorchTrainer):
 
         if self.use_rnd_norm:
             print('.......Using normailization in rnd........')
+            print(type(self.obs_mu))
+            self.obs_mu = ptu.from_numpy(self.obs_mu).to(device)
+            self.obs_std = ptu.from_numpy(self.obs_std).to(device)
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period

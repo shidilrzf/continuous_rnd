@@ -143,7 +143,7 @@ def experiment(variant):
 
     load_hdf5(dataset, replay_buffer, max_size=variant['replay_buffer_size'])
 
-    if variant['rnd_use_norm'] and variant['rnd']:
+    if variant['use_rnd_norm'] and variant['rnd']:
         obs_mu, obs_std = dataset['observations'].mean(axis=0), dataset['observations'].std(axis=0)
         actions_mu, actions_std = dataset['actions'].mean(axis=0), dataset['actions'].std(axis=0)
         rnd_norm_param = [obs_mu, obs_std, actions_mu, actions_std]
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt', help='name of the rnd model')
     parser.add_argument('--rnd_type', type=str, default='critic', help='use rnd in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
-    parser.add_argument('--rnd_use_norm', action='store_true', default=False, help='use normalization in rnd')
+    parser.add_argument('--use_rnd_norm', action='store_true', default=False, help='use normalization in rnd')
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
@@ -252,7 +252,7 @@ if __name__ == "__main__":
         use_rnd_critic=False,
         KL=False,
         # use normalization fore rnd
-        rnd_use_norm=args.rnd_use_norm,
+        use_rnd_norm=args.use_rnd_norm,
 
         algorithm_kwargs=dict(
             num_epochs=3000,

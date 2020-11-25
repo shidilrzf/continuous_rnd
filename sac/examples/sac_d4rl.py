@@ -150,9 +150,11 @@ def experiment(variant):
     else:
         rnd_norm_param = [None] * 4
 
-    # make rewrad positive
-    if variant['min_reward'] is not None:
-        rewards_norm_param = min(dataset['rewards']) - variant['min_reward']
+    # shift the reward
+    if variant['reward_shift'] is not None:
+        rewards_shift_param = min(dataset['rewards']) - variant['reward_shift']
+        print('.... reward is shifted : {} '.format(rewards_shift_param))
+    
     if variant['rnd']:
         if variant['KL']:
 
@@ -182,7 +184,7 @@ def experiment(variant):
                 use_rnd_critic=variant['use_rnd_critic'],
                 use_rnd_policy=variant['use_rnd_policy'],
                 rnd_norm_param=rnd_norm_param,
-                rewards_norm_param=rewards_norm_param,
+                rewards_shift_param=rewards_shift_param,
                 device=ptu.device,
                 **variant['trainer_kwargs']
             )
@@ -225,7 +227,7 @@ if __name__ == "__main__":
     parser.add_argument('--rnd_type', type=str, default='critic', help='use rnd in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--use_rnd_norm', action='store_true', default=False, help='use normalization in rnd')
-    parser.add_argument('--min_reward', default=None, type=int, help='minimum reward')
+    parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
 
 
     # d4rl
@@ -263,7 +265,7 @@ if __name__ == "__main__":
         use_rnd_norm=args.use_rnd_norm,
 
         # make reward positive
-        min_reward=args.min_reward,
+        reward_shift=args.reward_shift,
 
         algorithm_kwargs=dict(
             num_epochs=3000,

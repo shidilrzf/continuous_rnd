@@ -135,8 +135,8 @@ class SAC_RNDTrainer(TorchTrainer):
         next_obs = batch['next_observations']
 
         # make rewrads posutive
-        if self.rewards_norm_param is not None:
-            rewards = rewards - self.rewards_norm_param
+        if self.rewards_shift_param is not None:
+            rewards = rewards - self.rewards_shift_param
 
         """
         Policy and Alpha Loss

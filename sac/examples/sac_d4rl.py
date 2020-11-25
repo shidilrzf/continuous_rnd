@@ -151,7 +151,8 @@ def experiment(variant):
         rnd_norm_param = [None] * 4
 
     # make rewrad positive
-    rewards_norm_param = min(dataset['rewards'])
+    if variant['min_reward'] is not None:
+        rewards_norm_param = min(dataset['rewards']) - variant['min_reward']
     if variant['rnd']:
         if variant['KL']:
 
@@ -215,6 +216,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='sac_d4rl')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
+
+    # rnd 
     parser.add_argument('--rnd', action='store_true', default=False, help='use rnd in sac')
     parser.add_argument('--beta', default=5e3, type=float, help='beta for the bonus')
     parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/', help='path to the rnd model')
@@ -222,6 +225,8 @@ if __name__ == "__main__":
     parser.add_argument('--rnd_type', type=str, default='critic', help='use rnd in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--use_rnd_norm', action='store_true', default=False, help='use normalization in rnd')
+    parser.add_argument('--min_reward', default=None, type=int, help='minimum reward')
+
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
@@ -254,8 +259,11 @@ if __name__ == "__main__":
         use_rnd_policy=False,
         use_rnd_critic=False,
         KL=False,
-        # use normalization fore rnd
+        # use normalization for rnd
         use_rnd_norm=args.use_rnd_norm,
+
+        # make reward positive
+        min_reward=args.min_reward,
 
         algorithm_kwargs=dict(
             num_epochs=3000,

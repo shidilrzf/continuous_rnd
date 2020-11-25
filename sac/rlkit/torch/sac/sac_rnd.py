@@ -26,7 +26,7 @@ class SAC_RNDTrainer(TorchTrainer):
             use_rnd_policy,
 
             rnd_norm_param,
-            rewards_norm_param,
+            rewards_shift_param,
 
             device,
 
@@ -74,7 +74,7 @@ class SAC_RNDTrainer(TorchTrainer):
             self.actions_mu = ptu.from_numpy(self.actions_mu).to(device)
             self.actions_std = ptu.from_numpy(self.actions_std).to(device)
 
-        self.rewards_norm_param = rewards_norm_param
+        self.rewards_shift_param = rewards_shift_param
 
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period

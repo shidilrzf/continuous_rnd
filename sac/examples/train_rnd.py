@@ -142,9 +142,10 @@ if __name__ == "__main__":
             logger.add_scalar(log_dir + '/train-loss', t_loss, epoch)
         if t_loss < best_loss:
             best_loss = t_loss
-            print('Writing model checkpoint, loss:{:.2g}'.format(t_loss))
-
             file_name = 'models/{}_{}.pt'.format(timestamp, args.env)
+            print('Writing model checkpoint, loss:{:.2g}'.format(t_loss))
+            print('Writing model checkpoint : {}'.format(file_name))
+
             torch.save({
                 'epoch': epoch + 1,
                 'network_state_dict': network.state_dict(),

@@ -146,7 +146,7 @@ if __name__ == "__main__":
         input_size=obs_dim + action_dim,
         output_size=1,
         hidden_sizes=[M, M],
-        output_activation=F.sigmoid(),
+        output_activation=F.sigmoid,
     ).to(device)
 
     optimizer = optim.Adam(network.parameters(), lr=args.lr)

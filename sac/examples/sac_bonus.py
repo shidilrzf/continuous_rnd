@@ -16,6 +16,7 @@ from rlkit.torch.networks import Mlp
 
 from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
 
+from torch.nn import functional as F
 
 import h5py
 import argparse

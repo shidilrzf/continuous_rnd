@@ -53,7 +53,7 @@ def train(network, dataloader, optimizer, epoch, device):
         print('data:{}, data_random:{}'.format(data.size(), data_random.size()))
 
         output_data = network(data)
-        output_random = network(data_random)
+        output_random = network(data_random).view(batch_size, num_random, 1)
         print('output_data:{}, before mean output_data_random:{}'.format(output_data.size(), output_random.size()))
 
         output_random = torch.mean(output_random, 1)

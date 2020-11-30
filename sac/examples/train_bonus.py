@@ -90,6 +90,9 @@ if __name__ == "__main__":
 
     # tb
     parser.add_argument('--log-dir', type=str, default='runs', help='logging directory (default: runs)')
+
+    # load model
+    parser.add_argument('--load-model', type=str, default=None, help='Load model to resume training for (default None)')
     args = parser.parse_args()
 
     env = gym.make(args.env)
@@ -99,6 +102,9 @@ if __name__ == "__main__":
     # timestamps
     t = time.localtime()
     timestamp = time.strftime('%b-%d-%Y_%H%M', t)
+    print('-------------------------------')
+    print('Env:{}, timestamp:{}'.format(args.env, timestamp))
+    print('-------------------------------')
 
     # preparing data and dataset
     ds = env.get_dataset()

@@ -161,8 +161,8 @@ if __name__ == "__main__":
     if args.load_model is not None:
         if os.path.isfile(args.load_model):
             checkpoint = torch.load(args.load_model)
-            network.load_state_dict(checkpoint['model'])
-            optimizer.load_state_dict(checkpoint['optimizer'])
+            network.load_state_dict(checkpoint['network_state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
             t_loss = checkpoint['train_loss']
             epch = checkpoint['epoch']
             print('Loading model: {}. Resuming from epoch: {}'.format(args.load_model, epch))

@@ -197,6 +197,7 @@ def experiment(variant):
             qf2=qf2,
             target_qf1=target_qf1,
             target_qf2=target_qf2,
+            rewards_shift_param=rewards_shift_param,
             **variant['trainer_kwargs']
         )
     algorithm = TorchBatchRLAlgorithm(

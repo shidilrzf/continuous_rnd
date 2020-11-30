@@ -19,6 +19,8 @@ class SACTrainer(TorchTrainer):
             qf2,
             target_qf1,
             target_qf2,
+            # reward shift
+            ewards_shift_param,
 
             discount=0.99,
             reward_scale=1.0,
@@ -42,6 +44,9 @@ class SACTrainer(TorchTrainer):
         self.qf2 = qf2
         self.target_qf1 = target_qf1
         self.target_qf2 = target_qf2
+        # reward shift
+        self.rewards_shift_param = rewards_shift_param
+
         self.soft_target_tau = soft_target_tau
         self.target_update_period = target_update_period
 
@@ -85,12 +90,14 @@ class SACTrainer(TorchTrainer):
 
     def train_from_torch(self, batch):
 
-        
         rewards = batch['rewards']
         terminals = batch['terminals']
         obs = batch['observations']
         actions = batch['actions']
         next_obs = batch['next_observations']
+
+        if self.rewards_shift_param is not None:
+            rewards = rewards - self.rewards_shift_param
 
         """
         Policy and Alpha Loss

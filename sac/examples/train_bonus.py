@@ -35,11 +35,11 @@ def train(network, dataloader, optimizer, epoch, device):
     loss_func = nn.BCELoss(reduction='sum')
 
     network.train()
-    # desc = 'Train'
+    desc = 'Train'
 
-    # tqdm_bar = tqdm(dataloader)
-    batch_loss = 0
-    for batch_idx, (obs, act) in enumerate(dataloader):
+    tqdm_bar = tqdm(dataloader)
+    total_loss = 0
+    for batch_idx, (obs, act) in enumerate(tqdm_bar):
         batch_size = obs.size(0)
 
         obs = obs.to(device)
@@ -50,14 +50,11 @@ def train(network, dataloader, optimizer, epoch, device):
 
         data = torch.cat((obs, act), dim=1)
         data_random = get_random_actions(obs, act, num_random).to(device)
-        print('data:{}, data_random:{}'.format(data.size(), data_random.size()))
+        # print('data:{}, data_random:{}'.format(data.size(), data_random.size()))
 
         output_data = network(data)
         output_random = network(data_random).view(batch_size, num_random, 1)
-        print('output_data:{}, before mean output_data_random:{}'.format(output_data.size(), output_random.size()))
-
         output_random = torch.mean(output_random, 1)
-        print('after mean output_data_random:{}'.format(output_random.size()))
 
         loss = loss_func(output_data, y_ones) + loss_func(output_random, y_zeros)
 
@@ -66,12 +63,11 @@ def train(network, dataloader, optimizer, epoch, device):
         optimizer.step()
 
         # Reporting
-        batch_loss += loss.item() / batch_size
-        # total_loss += loss.item()
+        total_loss += loss.item()
 
-        # tqdm_bar.set_description('{} Epoch: [{}] Batch Loss: {:.2g}'.format(desc, epoch, batch_loss))
+        tqdm_bar.set_description('{} Epoch: [{}] Loss: {:.4f}'.format(desc, epoch, loss.item()))
 
-    return batch_loss / (batch_idx + 1)
+    return total_loss / (len(dataloader.dataset))
 
 
 if __name__ == "__main__":
@@ -91,6 +87,9 @@ if __name__ == "__main__":
     # cuda
     parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
     parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
+
+    # tb
+    parser.add_argument('--log-dir', type=str, default='runs', help='logging directory (default: runs)')
     args = parser.parse_args()
 
     env = gym.make(args.env)
@@ -136,7 +135,8 @@ if __name__ == "__main__":
         os.makedirs('runs')
 
     # Logger
-    use_tb = False
+    use_tb = args.log_dir is not None
+    log_dir = args.log_dir
     if use_tb:
         logger = SummaryWriter(comment='_' + args.env + '_rnd')
 

@@ -21,7 +21,7 @@ import time
 
 
 def get_random_actions(obs, act, num_random):
-    random_actions = torch.FloatTensor(obs.shape[0] * num_random, act.shape[-1]).uniform_(-1, 1)
+    random_actions = torch.FloatTensor(obs.shape[0] * num_random, act.shape[-1]).uniform_(-1, 1).to(device)
     action_shape = random_actions.shape[0]
     obs_shape = obs.shape[0]
     num_repeat = int(action_shape / obs_shape)
@@ -150,9 +150,21 @@ if __name__ == "__main__":
     ).to(device)
 
     optimizer = optim.Adam(network.parameters(), lr=args.lr)
+    epch = 0
+
+    if args.load_model is not None:
+        if os.path.isfile(args.load_model):
+            checkpoint = torch.load(args.load_model)
+            network.load_state_dict(checkpoint['model'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            t_loss = checkpoint['train_loss']
+            epch = checkpoint['epoch']
+            print('Loading model: {}. Resuming from epoch: {}'.format(args.load_model, epch))
+        else:
+            print('Model: {} not found'.format(args.load_model))
 
     best_loss = np.Inf
-    for epoch in range(args.epochs):
+    for epoch in range(epch, args.epochs):
         t_loss = train(network, dataloader, optimizer, epoch, device)
         print('=> epoch: {} Average Train loss: {:.4f}'.format(epoch, t_loss))
 

@@ -9,6 +9,7 @@ from rlkit.torch.sac.policies import TanhGaussianPolicy, MakeDeterministic
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
 from rlkit.torch.sac.sac_rnd_kl import SAC_RNDTrainerKL
+from rlkit.torch.sac.sac_cls import SAC_BonusTrainer
 
 from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.networks import Mlp
@@ -92,23 +93,18 @@ def experiment(variant):
         hidden_sizes=[M, M],
     ).to(ptu.device)
 
-    # if rnd: define rnd networks
-    if variant['rnd']:
-        rnd_network = Mlp(
+    # if bonus: define bonus networks
+    if variant['bonus']:
+        bonus_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
             hidden_sizes=[64, 64],
+            output_activation=F.sigmoid,
         ).to(ptu.device)
 
-        rnd_target_network = Mlp(
-            input_size=obs_dim + action_dim,
-            output_size=1,
-            hidden_sizes=[64, 64],
-        ).to(ptu.device)
-        checkpoint = torch.load(variant['rnd_path'], map_location=map_location)
-        rnd_network.load_state_dict(checkpoint['network_state_dict'])
-        rnd_target_network.load_state_dict(checkpoint['target_state_dict'])
-        print('Loading rnd model: {}'.format(variant['rnd_path']))
+        checkpoint = torch.load(variant['bonus_path'], map_location=map_location)
+        bonus_network.load_state_dict(checkpoint['network_state_dict'])
+        print('Loading bonus model: {}'.format(variant['bonus_path']))
 
     eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
@@ -131,51 +127,35 @@ def experiment(variant):
 
     load_hdf5(dataset, replay_buffer, max_size=variant['replay_buffer_size'])
 
-    if variant['use_rnd_norm'] and variant['rnd']:
+    if variant['normalize'] or variant['bonus']:
         obs_mu, obs_std = dataset['observations'].mean(axis=0), dataset['observations'].std(axis=0)
-        actions_mu, actions_std = dataset['actions'].mean(axis=0), dataset['actions'].std(axis=0)
-        rnd_norm_param = [obs_mu, obs_std, actions_mu, actions_std]
+        # actions_mu, actions_std = dataset['actions'].mean(axis=0), dataset['actions'].std(axis=0)
+        bonus_norm_param = [obs_mu, obs_std]
     else:
-        rnd_norm_param = [None] * 4
+        bonus_norm_param = [None] * 2
 
     # shift the reward
     if variant['reward_shift'] is not None:
         rewards_shift_param = min(dataset['rewards']) - variant['reward_shift']
         print('.... reward is shifted : {} '.format(rewards_shift_param))
-    
-    if variant['rnd']:
-        if variant['KL']:
 
-            trainer = SAC_RNDTrainerKL(
-                env=eval_env,
-                policy=policy,
-                qf1=qf1,
-                qf2=qf2,
-                target_qf1=target_qf1,
-                target_qf2=target_qf2,
-                rnd_network=rnd_network,
-                rnd_target_network=rnd_target_network,
-                device=ptu.device,
-                **variant['trainer_kwargs']
-            )
-        else:
-            trainer = SAC_RNDTrainer(
-                env=eval_env,
-                policy=policy,
-                qf1=qf1,
-                qf2=qf2,
-                target_qf1=target_qf1,
-                target_qf2=target_qf2,
-                rnd_network=rnd_network,
-                rnd_target_network=rnd_target_network,
-                beta=variant['rnd_beta'],
-                use_rnd_critic=variant['use_rnd_critic'],
-                use_rnd_policy=variant['use_rnd_policy'],
-                rnd_norm_param=rnd_norm_param,
-                rewards_shift_param=rewards_shift_param,
-                device=ptu.device,
-                **variant['trainer_kwargs']
-            )
+    if variant['bonus']:
+        trainer = SAC_BonusTrainer(
+            env=eval_env,
+            policy=policy,
+            qf1=qf1,
+            qf2=qf2,
+            target_qf1=target_qf1,
+            target_qf2=target_qf2,
+            bonus_network=bonus_network,
+            beta=variant['bonus_beta'],
+            use_bonus_critic=variant['use_bonus_critic'],
+            use_bonus_policy=variant['use_bonus_policy'],
+            bonus_norm_param=bonus_norm_param,
+            rewards_shift_param=rewards_shift_param,
+            device=ptu.device,
+            **variant['trainer_kwargs']
+        )
 
     else:
         trainer = SACTrainer(
@@ -205,19 +185,18 @@ def experiment(variant):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='sac_d4rl')
+    parser = argparse.ArgumentParser(description='sac_bonus')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
 
-    # rnd 
-    parser.add_argument('--rnd', action='store_true', default=False, help='use rnd in sac')
-    parser.add_argument('--beta', default=5e3, type=float, help='beta for the bonus')
-    parser.add_argument("--rnd_path", type=str, default='/usr/local/google/home/shideh/', help='path to the rnd model')
-    parser.add_argument("--rnd_model", type=str, default='Nov-03-2020_1648_halfcheetah-medium-v0.pt', help='name of the rnd model')
-    parser.add_argument('--rnd_type', type=str, default='critic', help='use rnd in actor, critic or both')
+    # bonus
+    parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
+    parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
+    parser.add_argument("--bonus_path", type=str, default='/usr/local/google/home/shideh/', help='path to the bonus model')
+    parser.add_argument("--bonus_model", type=str, default='Nov-30-2020_1147_walker2d-medium-v0.pt', help='name of the bonus model')
+    parser.add_argument('--bonus_type', type=str, default='actor-critic', help='use bonus in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
-    parser.add_argument('--use_rnd_norm', action='store_true', default=False, help='use normalization in rnd')
+    parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
-
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
@@ -231,14 +210,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # noinspection
-    rnd_path = '{}RL/continuous_rnd/sac/examples/models/{}'.format(
-        args.rnd_path, args.rnd_model)
+    bonus_path = '{}RL/continuous_rnd/sac/examples/models/{}'.format(
+        args.bonus_path, args.bonus_model)
     variant = dict(
         algorithm="SAC",
-        # rnd
-        rnd=args.rnd,
-        rnd_path=rnd_path,
-        rnd_beta=args.beta,
+        # bonus
+        bonus=args.bonus,
+        bonus_path=bonus_path,
+        bonus_beta=args.beta,
         version="normal",
         layer_size=256,
         replay_buffer_size=int(1E6),
@@ -246,12 +225,12 @@ if __name__ == "__main__":
         load_buffer=True,
         env_name=args.env,
         seed=args.seed,
-        # rnd_type
-        use_rnd_policy=False,
-        use_rnd_critic=False,
+        # bonus_type
+        use_bonus_policy=False,
+        use_bonus_critic=False,
         KL=False,
-        # use normalization for rnd
-        use_rnd_norm=args.use_rnd_norm,
+        # use normalization for bonus
+        normalize=args.normalize,
 
         # make reward positive
         reward_shift=args.reward_shift,
@@ -282,37 +261,37 @@ if __name__ == "__main__":
     # timestapms
     t = time.localtime()
     timestamp = time.strftime('%b-%d-%Y_%H%M', t)
-    # rnd and the type
-    if args.rnd:
-        exp_dir = '{}/rnd_{}/{}_{}'.format(args.env,
-                                           timestamp, args.rnd_type, args.seed)
-        # use rnd in actor, critic or both
-        if args.rnd_type == 'actor-critic':
+    # bonus and the type
+    if args.bonus:
+        exp_dir = '{}/bonus_{}/{}_{}'.format(args.env,
+                                             timestamp, args.bonus_type, args.seed)
+        # use bonus in actor, critic or both
+        if args.bonus_type == 'actor-critic':
 
-            variant["use_rnd_policy"] = True
-            variant["use_rnd_critic"] = True
+            variant["use_bonus_policy"] = True
+            variant["use_bonus_critic"] = True
 
-        elif args.rnd_type == 'critic':
+        elif args.bonus_type == 'critic':
 
-            variant["use_rnd_critic"] = True
+            variant["use_bonus_critic"] = True
 
         else:
-            variant["use_rnd_policy"] = True
+            variant["use_bonus_policy"] = True
 
         if args.kl:
-            # use rnd as KL: -\beta * b - \tau * lse (- \tau * b / \beta)
+            # use bonus as KL: -\beta * b - \tau * lse (- \tau * b / \beta)
             exp_dir = '{}_kl'.format(exp_dir)
             variant["KL"] = True
 
         else:
-            # use rnd as KL: -\beta * b
+            # use bonus as KL: -\beta * b
             exp_dir = '{0}_{1:.2g}'.format(exp_dir, args.beta)
 
     else:
         exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)
 
-    # if args.use_norm and args.rnd:
-    #     exp_dir = exp_dir + '_rnd_norm'
+    # if args.use_norm and args.bonus:
+    #     exp_dir = exp_dir + '_bonus_norm'
 
     # setup the logger
     print('experiment dir:logs/{}'.format(exp_dir))

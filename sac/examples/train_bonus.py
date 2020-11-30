@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument('--layer_size', default=64, type=int)
     # Optimizer
     parser.add_argument('--epochs', type=int, default=30, metavar='N', help='number of training epochs')
-    parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate (default: 2e-4')
+    parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate (default: 2e-4')
     parser.add_argument('--batch-size', type=int, default=256, metavar='N', help='input training batch-size')
     parser.add_argument('--seed', default=0, type=int)
     # normalization

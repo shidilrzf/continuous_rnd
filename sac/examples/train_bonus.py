@@ -56,7 +56,7 @@ def train(network, dataloader, optimizer, epoch, device):
         output_random = network(data_random).view(batch_size, num_random, 1)
         output_random = torch.mean(output_random, 1)
 
-        loss = loss_func(output_data, y_ones) + loss_func(output_random, y_zeros)
+        loss = 2 * loss_func(output_data, y_ones) + loss_func(output_random, y_zeros)
 
         network.zero_grad()
         loss.backward()

@@ -116,7 +116,7 @@ if __name__ == "__main__":
         # actions = (actions - actions.mean(axis=0)) / actions.std(axis=0)
 
     dataset = TensorDataset(torch.Tensor(obs), torch.Tensor(actions))
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
+    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
 
     # number of random actions per state
     num_random = 10

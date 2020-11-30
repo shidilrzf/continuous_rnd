@@ -45,8 +45,8 @@ def train(network, dataloader, optimizer, epoch, device):
         obs = obs.to(device)
         act = act.to(device)
 
-        y_ones = torch.ones(batch_size, ).to(device)
-        y_zeros = torch.zeros(batch_size, ).to(device)
+        y_ones = torch.ones(batch_size, 1).to(device)
+        y_zeros = torch.zeros(batch_size, 1).to(device)
 
         data = torch.cat((obs, act), dim=1)
         data_random = get_random_actions(obs, act, num_random).to(device)

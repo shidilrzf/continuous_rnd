@@ -20,7 +20,7 @@ class SACTrainer(TorchTrainer):
             target_qf1,
             target_qf2,
             # reward shift
-            ewards_shift_param,
+            rewards_shift_param,
 
             discount=0.99,
             reward_scale=1.0,

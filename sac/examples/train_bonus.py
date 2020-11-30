@@ -32,7 +32,7 @@ def get_random_actions(obs, act, num_random):
 
 def train(network, dataloader, optimizer, epoch, device):
 
-    loss_func = nn.BCELoss(reduction='mean')
+    loss_func = nn.BCELoss(reduction='sum')
 
     network.train()
     desc = 'Train'

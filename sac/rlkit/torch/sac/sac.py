@@ -19,6 +19,7 @@ class SACTrainer(TorchTrainer):
             qf2,
             target_qf1,
             target_qf2,
+            
             # reward shift
             rewards_shift_param,
 

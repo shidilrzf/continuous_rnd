@@ -34,6 +34,7 @@ class SAC_BonusTrainer(TorchTrainer):
 
             policy_lr=1e-3,
             qf_lr=1e-3,
+            alpha_lr=1e-6,
             optimizer_class=optim.Adam,
 
             soft_target_tau=1e-2,
@@ -86,7 +87,7 @@ class SAC_BonusTrainer(TorchTrainer):
             self.log_alpha = ptu.zeros(1, requires_grad=True)
             self.alpha_optimizer = optimizer_class(
                 [self.log_alpha],
-                lr=policy_lr,
+                lr=alpha_lr,
             )
 
         self.plotter = plotter

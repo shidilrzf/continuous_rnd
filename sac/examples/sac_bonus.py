@@ -188,6 +188,13 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='sac_bonus')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
+    # sac
+    parser.add_argument('--alpha_lr', default=1e-6, type=float)
+    parser.add_argument('--qf_lr', default=3e-4, type=float)
+    parser.add_argument('--policy_lr', default=1e-4, type=float)
+    parser.add_argument('--num_samples', default=100, type=int)
+    parser.add_argument('--no_automatic_entropy_tuning', action='store_true', default=False, help='no automatic entropy tuning')
+
 
     # bonus
     parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
@@ -203,9 +210,6 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
 
     parser.add_argument('--no-cuda', action='store_true', default=False, help='disables cuda (default: False')
-    parser.add_argument('--qf_lr', default=3e-4, type=float)
-    parser.add_argument('--policy_lr', default=1e-4, type=float)
-    parser.add_argument('--num_samples', default=100, type=int)
     parser.add_argument('--seed', default=10, type=int)
     parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
     args = parser.parse_args()
@@ -253,8 +257,9 @@ if __name__ == "__main__":
             target_update_period=1,
             policy_lr=args.policy_lr,
             qf_lr=args.qf_lr,
+            alpha_lr=args.alpha_lr,
             reward_scale=1,
-            use_automatic_entropy_tuning=True,),
+            use_automatic_entropy_tuning=not args.no_automatic_entropy_tuning,),
     )
 
     # datatset

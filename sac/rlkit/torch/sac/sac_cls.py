@@ -257,6 +257,18 @@ class SAC_BonusTrainer(TorchTrainer):
             if self.use_automatic_entropy_tuning:
                 self.eval_statistics['Alpha'] = alpha.item()
                 self.eval_statistics['Alpha Loss'] = alpha_loss.item()
+
+            # bonus
+            self.eval_statistics.update(create_stats_ordered_dict(
+                'Actor Bonus',
+                ptu.get_numpy(actor_bonus),
+            ))
+
+            self.eval_statistics.update(create_stats_ordered_dict(
+                'Critic Bonus',
+                ptu.get_numpy(critic_bonus),
+            ))
+
         self._n_train_steps_total += 1
 
     def get_diagnostics(self):

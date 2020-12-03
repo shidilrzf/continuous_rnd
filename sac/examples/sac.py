@@ -89,6 +89,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='sac_online')
     parser.add_argument("--env", type=str, default='walker2d-medium-v0')
+    parser.add_argument('--device-id', type=int, default=0, help='GPU device id (default: 0')
+
     args = parser.parse_args()
 
     # noinspection PyTypeChecker
@@ -117,8 +119,10 @@ if __name__ == "__main__":
             use_automatic_entropy_tuning=True,
         ),
     )
-    exp_dir = '{}/{}'.format(args.env)
+    exp_dir = '{}'.format(args.env)
     print('experiment dir:logs/{}'.format(exp_dir))
     setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
+    ptu.set_gpu_mode(True, gpu_id=args.device_id)
+    print('using gpu:{}'.format(args.device_id))
     # ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
     experiment(variant)

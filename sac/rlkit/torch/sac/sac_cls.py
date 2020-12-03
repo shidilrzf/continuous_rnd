@@ -272,6 +272,10 @@ class SAC_BonusTrainer(TorchTrainer):
                 'Critic Bonus',
                 ptu.get_numpy(critic_bonus),
             ))
+            self.eval_statistics.update(create_stats_ordered_dict(
+                'Target Q values',
+                ptu.get_numpy(target_q_values),
+            ))
 
         self._n_train_steps_total += 1
 

@@ -10,10 +10,15 @@ from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
 
+import argparse
+import gym
+
 
 def experiment(variant):
-    expl_env = NormalizedBoxEnv(HalfCheetahEnv())
-    eval_env = NormalizedBoxEnv(HalfCheetahEnv())
+
+    env = gym.make(variant['env_name'])
+    expl_env = NormalizedBoxEnv(env)
+    eval_env = NormalizedBoxEnv(env)
     obs_dim = expl_env.observation_space.low.size
     action_dim = eval_env.action_space.low.size
 
@@ -81,10 +86,16 @@ def experiment(variant):
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description='sac_online')
+    parser.add_argument("--env", type=str, default='walker2d-medium-v0')
+    args = parser.parse_args()
+
     # noinspection PyTypeChecker
     variant = dict(
         algorithm="SAC",
         version="normal",
+        env_name=args.env,
         layer_size=256,
         replay_buffer_size=int(1E6),
         algorithm_kwargs=dict(
@@ -106,6 +117,8 @@ if __name__ == "__main__":
             use_automatic_entropy_tuning=True,
         ),
     )
-    setup_logger('name-of-experiment', variant=variant)
+    exp_dir = '{}/{}'.format(args.env)
+    print('experiment dir:logs/{}'.format(exp_dir))
+    setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
     # ptu.set_gpu_mode(True)  # optionally set the GPU (default=False)
     experiment(variant)

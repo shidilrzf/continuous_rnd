@@ -16,9 +16,10 @@ import gym
 
 def experiment(variant):
 
-    env = gym.make(variant['env_name'])
-    expl_env = NormalizedBoxEnv(env)
-    eval_env = NormalizedBoxEnv(env)
+    eval_env = gym.make(variant['env_name'])
+    expl_env = eval_env
+    # expl_env = NormalizedBoxEnv(env)
+    # eval_env = NormalizedBoxEnv(env)
     obs_dim = expl_env.observation_space.low.size
     action_dim = eval_env.action_space.low.size
 

@@ -19,7 +19,7 @@ class SACTrainer(TorchTrainer):
             qf2,
             target_qf1,
             target_qf2,
-            
+
             # reward shift
             rewards_shift_param,
 
@@ -28,6 +28,7 @@ class SACTrainer(TorchTrainer):
 
             policy_lr=1e-3,
             qf_lr=1e-3,
+            alpha_lr=3e-5,
             optimizer_class=optim.Adam,
 
             soft_target_tau=1e-2,
@@ -60,7 +61,7 @@ class SACTrainer(TorchTrainer):
             self.log_alpha = ptu.zeros(1, requires_grad=True)
             self.alpha_optimizer = optimizer_class(
                 [self.log_alpha],
-                lr=policy_lr,
+                lr=alpha_lr,
             )
 
         self.plotter = plotter

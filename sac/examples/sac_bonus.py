@@ -191,7 +191,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='sac_bonus')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     # sac
-    parser.add_argument('--alpha_lr', default=1e-6, type=float)
+    parser.add_argument('--alpha_lr', default=3e-5, type=float)
     parser.add_argument('--qf_lr', default=3e-4, type=float)
     parser.add_argument('--policy_lr', default=1e-4, type=float)
     parser.add_argument('--num_samples', default=100, type=int)

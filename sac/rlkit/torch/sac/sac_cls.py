@@ -34,7 +34,7 @@ class SAC_BonusTrainer(TorchTrainer):
 
             policy_lr=1e-3,
             qf_lr=1e-3,
-            alpha_lr=1e-6,
+            alpha_lr=3e-5,
             optimizer_class=optim.Adam,
 
             soft_target_tau=1e-2,

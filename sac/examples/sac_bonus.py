@@ -5,7 +5,7 @@ from rlkit.data_management.env_replay_buffer import EnvReplayBuffer
 from rlkit.envs.wrappers import NormalizedBoxEnv
 from rlkit.launchers.launcher_util import setup_logger
 from rlkit.samplers.data_collector import MdpPathCollector, CustomMDPPathCollector
-from rlkit.torch.sac.policies import TanhGaussianPolicy, MakeDeterministic
+from rlkit.torch.sac.policies import TanhGaussianPolicy, TanhGaussianPolicy_BC, MakeDeterministic
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
 from rlkit.torch.sac.sac_rnd_kl import SAC_RNDTrainerKL
@@ -88,11 +88,33 @@ def experiment(variant):
         output_size=1,
         hidden_sizes=[M, M],
     ).to(ptu.device)
-    policy = TanhGaussianPolicy(
-        obs_dim=obs_dim,
-        action_dim=action_dim,
-        hidden_sizes=[M, M],
-    ).to(ptu.device)
+
+    # initialize with bc or not
+    if variant['bc_model'] is None:
+        policy = TanhGaussianPolicy(
+            obs_dim=obs_dim,
+            action_dim=action_dim,
+            hidden_sizes=[M, M],
+        ).to(ptu.device)
+    else:
+        bc_model = Mlp(
+            input_size=obs_dim,
+            output_size=action_dim,
+            hidden_sizes=[M, M],
+            output_activation=F.sigmoid,
+        ).to(ptu.device)
+
+        checkpoint = torch.load(variant['bc_model'], map_location=map_location)
+        bc_model.load_state_dict(checkpoint['network_state_dict'])
+        print('Loading bc model: {}'.format(variant['bc_model']))
+
+        # policy initialized with bc
+        policy = TanhGaussianPolicy_BC(
+            obs_dim=obs_dim,
+            action_dim=action_dim,
+            mean_network=bc_model,
+            hidden_sizes=[M, M],
+        ).to(ptu.device)
 
     # if bonus: define bonus networks
     if variant['bonus']:
@@ -201,12 +223,16 @@ if __name__ == "__main__":
     # bonus
     parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
     parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
-    parser.add_argument("--bonus_path", type=str, default='/usr/local/google/home/shideh/', help='path to the bonus model')
+    parser.add_argument("--root_path", type=str, default='/usr/local/google/home/shideh/', help='path to the bonus model')
     parser.add_argument("--bonus_model", type=str, default='Nov-30-2020_1147_walker2d-medium-v0.pt', help='name of the bonus model')
     parser.add_argument('--bonus_type', type=str, default='actor-critic', help='use bonus in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
+
+    # initialize with bc
+    parser.add_argument('--initialize_bc', action='store_true', default=False, help='use normalization in bonus')
+    parser.add_argument("--bc_model", type=str, default='Nov-30-2020_1147_walker2d-medium-v0.pt', help='name of pretrained bc model')
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
@@ -218,9 +244,11 @@ if __name__ == "__main__":
 
     # noinspection
     bonus_path = '{}RL/continuous_rnd/sac/examples/models/{}'.format(
-        args.bonus_path, args.bonus_model)
+        args.root_path, args.bonus_model)
     variant = dict(
         algorithm="SAC",
+        # initialize with bc
+        bc_model=None,
         # bonus
         bonus=args.bonus,
         bonus_path=bonus_path,
@@ -264,7 +292,11 @@ if __name__ == "__main__":
             use_automatic_entropy_tuning=not args.no_automatic_entropy_tuning,),
     )
 
-    # datatset
+    # initialize with bc
+    if args.initialize_bc:
+        if args.bc_model is None:
+            raise ValueError('The path to bc model should be given')
+        variant['bc_model'] = '{}RL/continuous_rnd/sac/examples/models/{}'.format(args.root_path, args.bc_model)
 
     # timestapms
     t = time.localtime()

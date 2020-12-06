@@ -140,7 +140,6 @@ if __name__ == "__main__":
         input_size=obs_dim,
         output_size=action_dim,
         hidden_sizes=[M, M],
-        output_activation=F.sigmoid,
     ).to(device)
 
     optimizer = optim.Adam(network.parameters(), lr=args.lr)
@@ -166,7 +165,7 @@ if __name__ == "__main__":
             logger.add_scalar(log_dir + '/train-loss', t_loss, epoch)
         if t_loss < best_loss:
             best_loss = t_loss
-            file_name = 'models/{}_{}.pt'.format(timestamp, args.env)
+            file_name = 'models/bc_{}_{}.pt'.format(timestamp, args.env)
             print('Writing model checkpoint, loss:{:.2g}'.format(t_loss))
             print('Writing model checkpoint : {}'.format(file_name))
 

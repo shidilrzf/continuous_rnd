@@ -231,8 +231,7 @@ if __name__ == "__main__":
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
 
     # initialize with bc
-    parser.add_argument('--initialize_bc', action='store_true', default=False, help='use normalization in bonus')
-    parser.add_argument("--bc_model", type=str, default='Nov-30-2020_1147_walker2d-medium-v0.pt', help='name of pretrained bc model')
+    parser.add_argument("--bc_model", type=str, default=None, help='name of pretrained bc model')
 
     # d4rl
     parser.add_argument('--dataset_path', type=str, default=None, help='d4rl dataset path')
@@ -293,9 +292,7 @@ if __name__ == "__main__":
     )
 
     # initialize with bc
-    if args.initialize_bc:
-        if args.bc_model is None:
-            raise ValueError('The path to bc model should be given')
+    if args.bc_model is not None:
         variant['bc_model'] = '{}RL/continuous_rnd/sac/examples/models/{}'.format(args.root_path, args.bc_model)
 
     # timestapms

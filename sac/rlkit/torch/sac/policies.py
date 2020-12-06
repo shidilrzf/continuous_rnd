@@ -212,10 +212,10 @@ class TanhGaussianPolicy_BC(Mlp, ExplorationPolicy):
     def log_prob(self, obs, actions):
         raw_actions = atanh(actions)
         h = obs
-        # for i, fc in enumerate(self.fcs):
-        #     h = self.hidden_activation(fc(h))
+        for i, fc in enumerate(self.fcs):
+            h = self.hidden_activation(fc(h))
         # mean = self.last_fc(h)
-        mean = self.mean_network(h)
+        mean = self.mean_network(obs)
         mean = torch.clamp(mean, MEAN_MIN, MEAN_MAX)
         if self.std is None:
             log_std = self.last_fc_log_std(h)
@@ -242,10 +242,10 @@ class TanhGaussianPolicy_BC(Mlp, ExplorationPolicy):
         :param return_log_prob: If True, return a sample and its log probability
         """
         h = obs
-        # for i, fc in enumerate(self.fcs):
-        #     h = self.hidden_activation(fc(h))
+        for i, fc in enumerate(self.fcs):
+            h = self.hidden_activation(fc(h))
         # mean = self.last_fc(h)
-        mean = self.mean_network(h)
+        mean = self.mean_network(obs)
         if self.std is None:
             log_std = self.last_fc_log_std(h)
             log_std = torch.clamp(log_std, LOG_SIG_MIN, LOG_SIG_MAX)

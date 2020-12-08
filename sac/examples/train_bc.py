@@ -140,6 +140,7 @@ if __name__ == "__main__":
         input_size=obs_dim,
         output_size=action_dim,
         hidden_sizes=[M, M],
+        output_activation=F.tanh,
     ).to(device)
 
     optimizer = optim.Adam(network.parameters(), lr=args.lr)

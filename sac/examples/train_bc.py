@@ -32,7 +32,7 @@ def get_random_actions(obs, act, num_random):
 
 def train(network, dataloader, optimizer, epoch, device):
 
-    loss_func = nn.MSELoss(reduction='sum')
+    loss_func = nn.MSELoss(reduction='mean')
 
     network.train()
     desc = 'Train'

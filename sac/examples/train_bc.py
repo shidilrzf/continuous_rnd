@@ -20,16 +20,6 @@ import os
 import time
 
 
-def get_random_actions(obs, act, num_random):
-    random_actions = torch.FloatTensor(obs.shape[0] * num_random, act.shape[-1]).uniform_(-1, 1).to(device)
-    action_shape = random_actions.shape[0]
-    obs_shape = obs.shape[0]
-    num_repeat = int(action_shape / obs_shape)
-    obs_temp = obs.unsqueeze(1).repeat(1, num_repeat, 1).view(obs.shape[0] * num_repeat, obs.shape[1])
-    data = torch.cat((obs_temp, random_actions), dim=1)
-    return data
-
-
 def train(network, dataloader, optimizer, epoch, device):
 
     loss_func = nn.MSELoss(reduction='mean')
@@ -67,7 +57,7 @@ if __name__ == "__main__":
     parser.add_argument("--env", type=str, default='walker2d-medium-v0')
     parser.add_argument("--gpu", default='0', type=str)
     # network
-    parser.add_argument('--layer_size', default=256, type=int)
+    parser.add_argument('--layer-size', default=256, type=int)
     # Optimizer
     parser.add_argument('--epochs', type=int, default=100, metavar='N', help='number of training epochs')
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate (default: 2e-4')

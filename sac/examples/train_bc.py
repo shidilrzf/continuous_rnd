@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # network
     parser.add_argument('--layer_size', default=256, type=int)
     # Optimizer
-    parser.add_argument('--epochs', type=int, default=30, metavar='N', help='number of training epochs')
+    parser.add_argument('--epochs', type=int, default=100, metavar='N', help='number of training epochs')
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate (default: 2e-4')
     parser.add_argument('--batch-size', type=int, default=256, metavar='N', help='input training batch-size')
     parser.add_argument('--seed', default=0, type=int)
@@ -140,6 +140,7 @@ if __name__ == "__main__":
         input_size=obs_dim,
         output_size=action_dim,
         hidden_sizes=[M, M],
+        output_activation=F.tanh,
     ).to(device)
 
     optimizer = optim.Adam(network.parameters(), lr=args.lr)

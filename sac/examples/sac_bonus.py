@@ -129,7 +129,7 @@ def experiment(variant):
         bonus_network.load_state_dict(checkpoint['network_state_dict'])
         print('Loading bonus model: {}'.format(variant['bonus_path']))
 
-        if variant['initialize-Q']:
+        if variant['initialize_Q']:
             target_qf1.load_state_dict(checkpoint['network_state_dict'])
             target_qf2.load_state_dict(checkpoint['network_state_dict'])
             print('Initialize QF1 and QF2 with the bonus model: {}'.format(variant['bonus_path']))
@@ -271,7 +271,7 @@ if __name__ == "__main__":
         use_bonus_policy=False,
         use_bonus_critic=False,
         KL=False,
-        initialize-Q=args.initialize-Q,
+        initialize_Q=args.initialize_Q,
         # use normalization for bonus
         normalize=args.normalize,
 

@@ -22,7 +22,7 @@ import time
 
 def train(network, dataloader, optimizer, epoch, device):
 
-    loss_func = nn.MSELoss(reduction='mean')
+    loss_func = nn.MSELoss(reduction='sum')
 
     network.train()
     desc = 'Train'

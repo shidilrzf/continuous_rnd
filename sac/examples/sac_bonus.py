@@ -100,8 +100,8 @@ def experiment(variant):
         bc_model = Mlp(
             input_size=obs_dim,
             output_size=action_dim,
-            hidden_sizes=[M, M],
-            output_activation=F.sigmoid,
+            hidden_sizes=[64, 64],
+            output_activation=F.tanh,
         ).to(ptu.device)
 
         checkpoint = torch.load(variant['bc_model'], map_location=map_location)

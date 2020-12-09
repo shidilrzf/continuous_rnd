@@ -121,13 +121,19 @@ def experiment(variant):
         bonus_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
-            hidden_sizes=[64, 64],
+            hidden_sizes=[M, M],
             output_activation=F.sigmoid,
         ).to(ptu.device)
 
         checkpoint = torch.load(variant['bonus_path'], map_location=map_location)
         bonus_network.load_state_dict(checkpoint['network_state_dict'])
         print('Loading bonus model: {}'.format(variant['bonus_path']))
+
+        if variant['initialize_Q']:
+            target_qf1.load_state_dict(checkpoint['network_state_dict'])
+            target_qf2.load_state_dict(checkpoint['network_state_dict'])
+            print('Initialize QF1 and QF2 with the bonus model: {}'.format(variant['bonus_path']))
+
 
     eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
@@ -229,6 +235,8 @@ if __name__ == "__main__":
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
+    parser.add_argument('--initialize_Q', action='store_true', default=False, help='initialize Q with bonus')
+
 
     # initialize with bc
     parser.add_argument("--bc_model", type=str, default=None, help='name of pretrained bc model')
@@ -263,6 +271,7 @@ if __name__ == "__main__":
         use_bonus_policy=False,
         use_bonus_critic=False,
         KL=False,
+        initialize_Q=args.initialize_Q,
         # use normalization for bonus
         normalize=args.normalize,
 

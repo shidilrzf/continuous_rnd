@@ -194,17 +194,17 @@ class SAC_BonusTrainer(TorchTrainer):
         """
         self.policy_optimizer.zero_grad()
         policy_loss.backward()
-        # torch.nn.utils.clip_grad_norm_(self.policy.parameters(), self.clip_val)
+        torch.nn.utils.clip_grad_norm_(self.policy.parameters(), self.clip_val)
         self.policy_optimizer.step()
 
         self.qf1_optimizer.zero_grad()
         qf1_loss.backward()
-        # torch.nn.utils.clip_grad_norm_(self.qf1.parameters(), self.clip_val)
+        torch.nn.utils.clip_grad_norm_(self.qf1.parameters(), self.clip_val)
         self.qf1_optimizer.step()
 
         self.qf2_optimizer.zero_grad()
         qf2_loss.backward()
-        # torch.nn.utils.clip_grad_norm_(self.qf2.parameters(), self.clip_val)
+        torch.nn.utils.clip_grad_norm_(self.qf2.parameters(), self.clip_val)
         self.qf2_optimizer.step()
 
         """

@@ -229,8 +229,8 @@ if __name__ == "__main__":
     # bonus
     parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
     parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
-    parser.add_argument("--root_path", type=str, default='/usr/local/google/home/shideh/', help='path to the bonus model')
-    parser.add_argument("--bonus_model", type=str, default='Nov-30-2020_1147_walker2d-medium-v0.pt', help='name of the bonus model')
+    parser.add_argument("--root_path", type=str, default='/home/shideh/', help='path to the bonus model')
+    parser.add_argument("--bonus_model", type=str, default=None, help='name of the bonus model')
     parser.add_argument('--bonus_type', type=str, default='actor-critic', help='use bonus in actor, critic or both')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')

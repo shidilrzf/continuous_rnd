@@ -263,15 +263,16 @@ class SAC_BonusTrainer(TorchTrainer):
                 self.eval_statistics['Alpha Loss'] = alpha_loss.item()
 
             # bonus
-            self.eval_statistics.update(create_stats_ordered_dict(
-                'Actor Bonus',
-                ptu.get_numpy(actor_bonus),
-            ))
-
-            self.eval_statistics.update(create_stats_ordered_dict(
-                'Critic Bonus',
-                ptu.get_numpy(critic_bonus),
-            ))
+            if self.use_bonus_policy:
+                self.eval_statistics.update(create_stats_ordered_dict(
+                    'Actor Bonus',
+                    ptu.get_numpy(actor_bonus),
+                ))
+            if self.use_bonus_critic:
+                self.eval_statistics.update(create_stats_ordered_dict(
+                    'Critic Bonus',
+                    ptu.get_numpy(critic_bonus),
+                ))
             self.eval_statistics.update(create_stats_ordered_dict(
                 'Target Q values',
                 ptu.get_numpy(target_q_values),

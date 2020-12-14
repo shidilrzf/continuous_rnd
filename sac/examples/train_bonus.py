@@ -46,7 +46,7 @@ def train(network, dataloader, optimizer, epoch, device):
         act = act.to(device)
 
         # add noise to actions
-        noise = torch.normal(mean=0, std=0.25, size=(act.shape[0], act.shape[-1])).to(device)
+        noise = torch.normal(mean=0, std=args.std, size=(act.shape[0], act.shape[-1])).to(device)
         act = act + noise
 
         y_ones = torch.ones(batch_size, 1).to(device)
@@ -76,7 +76,7 @@ def train(network, dataloader, optimizer, epoch, device):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='sac_d4rl')
+    parser = argparse.ArgumentParser(description='classifier based bonus')
     parser.add_argument("--env", type=str, default='halfcheetah-medium-v0')
     parser.add_argument("--gpu", default='0', type=str)
     # network
@@ -86,6 +86,8 @@ if __name__ == "__main__":
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate (default: 2e-4')
     parser.add_argument('--batch-size', type=int, default=256, metavar='N', help='input training batch-size')
     parser.add_argument('--seed', default=0, type=int)
+    # sigam for the noisey actions
+    parser.add_argument('--std', type=float, default=0.25, help='std for the noise added to actions')
     # normalization
     parser.add_argument('--use_norm', action='store_true', default=False, help='use norm')
     # cuda

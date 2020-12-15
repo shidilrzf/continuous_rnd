@@ -142,6 +142,8 @@ def experiment(variant):
     if variant['reward_shift'] is not None:
         rewards_shift_param = min(dataset['rewards']) - variant['reward_shift']
         print('.... reward is shifted : {} '.format(rewards_shift_param))
+    else:
+        rewards_shift_param = None
     
     if variant['rnd']:
         if variant['KL']:

@@ -118,10 +118,11 @@ def experiment(variant):
 
     # if bonus: define bonus networks
     if variant['bonus']:
+        bonus_layer_size = variant['bonus_layer_size']
         bonus_network = Mlp(
             input_size=obs_dim + action_dim,
             output_size=1,
-            hidden_sizes=[M, M],
+            hidden_sizes=[bonus_layer_size, bonus_layer_size],
             output_activation=F.sigmoid,
         ).to(ptu.device)
 
@@ -129,10 +130,12 @@ def experiment(variant):
         bonus_network.load_state_dict(checkpoint['network_state_dict'])
         print('Loading bonus model: {}'.format(variant['bonus_path']))
 
-        if variant['initialize_Q']:
+        if variant['initialize_Q'] and bonus_layer_size == M:
             target_qf1.load_state_dict(checkpoint['network_state_dict'])
             target_qf2.load_state_dict(checkpoint['network_state_dict'])
             print('Initialize QF1 and QF2 with the bonus model: {}'.format(variant['bonus_path']))
+        if variant['initialize_Q'] and bonus_layer_size != M:
+            print(' Size mismatch between Q and bonus- Turining off the initialization')
 
 
     eval_policy = MakeDeterministic(policy)
@@ -232,6 +235,7 @@ if __name__ == "__main__":
     parser.add_argument("--root_path", type=str, default='/home/shideh/', help='path to the bonus model')
     parser.add_argument("--bonus_model", type=str, default=None, help='name of the bonus model')
     parser.add_argument('--bonus_type', type=str, default='actor-critic', help='use bonus in actor, critic or both')
+    parser.add_argument('--bonus_layer', default=256, type=int, help='layer size of the bonus model')
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
@@ -262,6 +266,7 @@ if __name__ == "__main__":
         bonus_beta=args.beta,
         version="normal",
         layer_size=256,
+        bonus_layer_size=args.bonus_layer,
         replay_buffer_size=int(1E6),
         buffer_filename=args.env,  # halfcheetah_101000.pkl',
         load_buffer=True,

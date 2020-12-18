@@ -10,6 +10,7 @@ from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.sac.sac_rnd import SAC_RNDTrainer
 from rlkit.torch.sac.sac_rnd_kl import SAC_RNDTrainerKL
 from rlkit.torch.sac.sac_cls import SAC_BonusTrainer
+from rlkit.torch.sac.sac_cls_mlt import SAC_BonusTrainer_Mlt
 
 from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.networks import Mlp
@@ -174,7 +175,7 @@ def experiment(variant):
         rewards_shift_param = None
 
     if variant['bonus']:
-        trainer = SAC_BonusTrainer(
+        trainer = SAC_BonusTrainer_Mlt(
             env=eval_env,
             policy=policy,
             qf1=qf1,

@@ -10,7 +10,7 @@ from rlkit.core.eval_util import create_stats_ordered_dict
 from rlkit.torch.torch_rl_algorithm import TorchTrainer
 
 
-class SAC_BonusTrainer(TorchTrainer):
+class SAC_BonusTrainer_Mlt(TorchTrainer):
     def __init__(
             self,
             env,

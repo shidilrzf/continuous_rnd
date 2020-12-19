@@ -175,7 +175,7 @@ def experiment(variant):
         rewards_shift_param = None
 
     if variant['bonus']:
-        trainer = SAC_BonusTrainer_Mlt(
+        trainer = SAC_BonusTrainer(
             env=eval_env,
             policy=policy,
             qf1=qf1,
@@ -186,6 +186,7 @@ def experiment(variant):
             beta=variant['bonus_beta'],
             use_bonus_critic=variant['use_bonus_critic'],
             use_bonus_policy=variant['use_bonus_policy'],
+            use_log=variant['use_log'],
             bonus_norm_param=bonus_norm_param,
             rewards_shift_param=rewards_shift_param,
             device=ptu.device,
@@ -229,7 +230,6 @@ if __name__ == "__main__":
     parser.add_argument('--num_samples', default=100, type=int)
     parser.add_argument('--no_automatic_entropy_tuning', action='store_true', default=False, help='no automatic entropy tuning')
 
-
     # bonus
     parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
     parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
@@ -240,8 +240,8 @@ if __name__ == "__main__":
     parser.add_argument('--kl', action='store_true', default=False, help='use bonus in KL regularized way')
     parser.add_argument('--normalize', action='store_true', default=False, help='use normalization in bonus')
     parser.add_argument('--reward_shift', default=None, type=int, help='minimum reward')
-    parser.add_argument('--initialize-Q', action='store_true', default=False, help='initialize Q with bonus')
-
+    parser.add_argument('--initialize_Q', action='store_true', default=False, help='initialize Q with bonus')
+    parser.add_argument('--use_log', action='store_true', default=False, help='use log(bonus(s, a) otherwise 1 - bonus(s, a)')
 
     # initialize with bc
     parser.add_argument("--bc_model", type=str, default=None, help='name of pretrained bc model')
@@ -259,13 +259,14 @@ if __name__ == "__main__":
         args.root_path, args.bonus_model)
     variant = dict(
         algorithm="SAC",
+        version="normal",
         # initialize with bc
         bc_model=None,
         # bonus
         bonus=args.bonus,
         bonus_path=bonus_path,
         bonus_beta=args.beta,
-        version="normal",
+        use_log=args.use_log,
         layer_size=256,
         bonus_layer_size=args.bonus_layer,
         replay_buffer_size=int(1E6),

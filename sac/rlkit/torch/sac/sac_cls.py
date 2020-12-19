@@ -24,6 +24,8 @@ class SAC_BonusTrainer(TorchTrainer):
             use_bonus_critic,
             use_bonus_policy,
 
+            use_log,
+
             bonus_norm_param,
             rewards_shift_param,
 
@@ -61,6 +63,11 @@ class SAC_BonusTrainer(TorchTrainer):
         # type of adding bonus to critic or policy
         self.use_bonus_critic = use_bonus_critic
         self.use_bonus_policy = use_bonus_policy
+
+        # use log in the bonus
+        # if use_log : log(bonus)
+        # else 1 - bonus
+        self.use_log = use_log
 
         # normlization
         self.obs_mu, self.obs_std = bonus_norm_param
@@ -123,7 +130,15 @@ class SAC_BonusTrainer(TorchTrainer):
             # actions = (actions - self.actions_mu) / self.actions_std
         with torch.no_grad():
             data = torch.cat((obs, actions), dim=1)
-            bonus = 1.0 - self.bonus_network(data)
+            bonus = self.bonus_network(data)
+
+        # use log in the bonus
+        # if use_log : log(bonus)
+        # else 1 - bonus
+        if self.use_log:
+            bonus = torch.log(torch.clamp(bonus, 1e-40, 1))
+        else:
+            bonus = 1.0 - bonus
         return bonus
 
     def train_from_torch(self, batch):

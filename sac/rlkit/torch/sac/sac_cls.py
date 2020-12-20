@@ -136,7 +136,7 @@ class SAC_BonusTrainer(TorchTrainer):
         # if use_log : log(bonus)
         # else 1 - bonus
         if self.use_log:
-            bonus = torch.log(torch.clamp(bonus, 1e-40, 1))
+            bonus = - torch.log(torch.clamp(bonus, 1e-40, 1))
         else:
             bonus = 1.0 - bonus
         return bonus

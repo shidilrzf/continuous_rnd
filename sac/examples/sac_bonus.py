@@ -378,7 +378,7 @@ if __name__ == "__main__":
         # optionally set the GPU (default=False)
         ptu.set_gpu_mode(True, gpu_id=args.device_id)
         print('using gpu:{}'.format(args.device_id))
-        # def map_location(storage, loc): return storage.cuda()
+        def map_location(storage, loc): return storage.cuda()
 
     else:
         map_location = 'cpu'

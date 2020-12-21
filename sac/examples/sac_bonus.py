@@ -138,7 +138,6 @@ def experiment(variant):
         if variant['initialize_Q'] and bonus_layer_size != M:
             print(' Size mismatch between Q and bonus- Turining off the initialization')
 
-
     eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
         eval_env,
@@ -192,7 +191,23 @@ def experiment(variant):
             device=ptu.device,
             **variant['trainer_kwargs']
         )
-
+    elif variant['bonus_mlt']:
+        trainer = SAC_BonusTrainer_Mlt(
+            env=eval_env,
+            policy=policy,
+            qf1=qf1,
+            qf2=qf2,
+            target_qf1=target_qf1,
+            target_qf2=target_qf2,
+            bonus_network=bonus_network,
+            beta=variant['bonus_beta'],
+            use_bonus_critic=variant['use_bonus_critic'],
+            use_bonus_policy=variant['use_bonus_policy'],
+            bonus_norm_param=bonus_norm_param,
+            rewards_shift_param=rewards_shift_param,
+            device=ptu.device,
+            **variant['trainer_kwargs']
+        )
     else:
         trainer = SACTrainer(
             env=eval_env,
@@ -204,6 +219,7 @@ def experiment(variant):
             rewards_shift_param=rewards_shift_param,
             **variant['trainer_kwargs']
         )
+
     algorithm = TorchBatchRLAlgorithm(
         trainer=trainer,
         exploration_env=expl_env,
@@ -232,6 +248,7 @@ if __name__ == "__main__":
 
     # bonus
     parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
+    parser.add_argument('--bonus_mlt', action='store_true', default=False, help='use bonus Q*bonus')
     parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
     parser.add_argument("--root_path", type=str, default='/home/shideh/', help='path to the bonus model')
     parser.add_argument("--bonus_model", type=str, default=None, help='name of the bonus model')
@@ -264,6 +281,7 @@ if __name__ == "__main__":
         bc_model=None,
         # bonus
         bonus=args.bonus,
+        bonus_mlt=args.bonus_mlt,
         bonus_path=bonus_path,
         bonus_beta=args.beta,
         use_log=args.use_log,

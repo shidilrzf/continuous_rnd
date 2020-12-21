@@ -123,7 +123,7 @@ class SAC_BonusTrainer_Mlt(TorchTrainer):
             # actions = (actions - self.actions_mu) / self.actions_std
         with torch.no_grad():
             data = torch.cat((obs, actions), dim=1)
-            bonus = 1.0 - self.bonus_network(data)
+            bonus = self.bonus_network(data)
         return bonus
 
     def train_from_torch(self, batch):

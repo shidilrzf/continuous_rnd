@@ -183,7 +183,7 @@ def experiment(variant):
             rewards_shift_param=rewards_shift_param,
             **variant['trainer_kwargs']
         )
-        print('Agent of type offline created')
+        print('Agent of type offline SAC created')
 
     elif variant['bonus'] == 'bonus_add':
         trainer = SAC_BonusTrainer(
@@ -203,7 +203,7 @@ def experiment(variant):
             device=ptu.device,
             **variant['trainer_kwargs']
         )
-        print('Agent of type additive bonus created')
+        print('Agent of type SAC + additive bonus created')
     elif variant['bonus'] == 'bonus_mlt':
         trainer = SAC_BonusTrainer_Mlt(
             env=eval_env,
@@ -221,7 +221,7 @@ def experiment(variant):
             device=ptu.device,
             **variant['trainer_kwargs']
         )
-        print('Agent of type multiplicative bonus created')
+        print('Agent of type SAC + multiplicative bonus created')
 
     else:
         raise ValueError('Not implemented error')

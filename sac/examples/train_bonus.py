@@ -48,6 +48,7 @@ def train(network, dataloader, optimizer, epoch, device):
         # add noise to actions
         noise = torch.normal(mean=0, std=args.std, size=(act.shape[0], act.shape[-1])).to(device)
         act = act + noise
+        act = torch.clamp(act, -1.0, 1.0)
 
         y_ones = torch.ones(batch_size, 1).to(device)
         y_zeros = torch.zeros(batch_size, 1).to(device)

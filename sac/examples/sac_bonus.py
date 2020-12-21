@@ -118,7 +118,7 @@ def experiment(variant):
         ).to(ptu.device)
 
     # if bonus: define bonus networks
-    if variant['bonus']:
+    if not variant['offline']:
         bonus_layer_size = variant['bonus_layer_size']
         bonus_network = Mlp(
             input_size=obs_dim + action_dim,
@@ -138,7 +138,7 @@ def experiment(variant):
         if variant['initialize_Q'] and bonus_layer_size != M:
             print(' Size mismatch between Q and bonus- Turining off the initialization')
 
-    eval_policy = MakeDeterministic(policy)
+    # eval_policy = MakeDeterministic(policy)
     eval_path_collector = CustomMDPPathCollector(
         eval_env,
     )
@@ -159,9 +159,8 @@ def experiment(variant):
 
     load_hdf5(dataset, replay_buffer, max_size=variant['replay_buffer_size'])
 
-    if variant['normalize'] or variant['bonus']:
+    if variant['normalize']:
         obs_mu, obs_std = dataset['observations'].mean(axis=0), dataset['observations'].std(axis=0)
-        # actions_mu, actions_std = dataset['actions'].mean(axis=0), dataset['actions'].std(axis=0)
         bonus_norm_param = [obs_mu, obs_std]
     else:
         bonus_norm_param = [None] * 2
@@ -173,7 +172,19 @@ def experiment(variant):
     else:
         rewards_shift_param = None
 
-    if variant['bonus']:
+    if variant['offline']:
+        trainer = SACTrainer(
+            env=eval_env,
+            policy=policy,
+            qf1=qf1,
+            qf2=qf2,
+            target_qf1=target_qf1,
+            target_qf2=target_qf2,
+            rewards_shift_param=rewards_shift_param,
+            **variant['trainer_kwargs']
+        )
+
+    elif variant['bonus'] == 'bonus_add':
         trainer = SAC_BonusTrainer(
             env=eval_env,
             policy=policy,
@@ -191,7 +202,7 @@ def experiment(variant):
             device=ptu.device,
             **variant['trainer_kwargs']
         )
-    elif variant['bonus_mlt']:
+    elif variant['bonus'] == 'bonus_mlt':
         trainer = SAC_BonusTrainer_Mlt(
             env=eval_env,
             policy=policy,
@@ -209,16 +220,7 @@ def experiment(variant):
             **variant['trainer_kwargs']
         )
     else:
-        trainer = SACTrainer(
-            env=eval_env,
-            policy=policy,
-            qf1=qf1,
-            qf2=qf2,
-            target_qf1=target_qf1,
-            target_qf2=target_qf2,
-            rewards_shift_param=rewards_shift_param,
-            **variant['trainer_kwargs']
-        )
+        raise ValueError('Not implemented error')
 
     algorithm = TorchBatchRLAlgorithm(
         trainer=trainer,
@@ -247,8 +249,8 @@ if __name__ == "__main__":
     parser.add_argument('--no_automatic_entropy_tuning', action='store_true', default=False, help='no automatic entropy tuning')
 
     # bonus
-    parser.add_argument('--bonus', action='store_true', default=False, help='use bonus in sac')
-    parser.add_argument('--bonus_mlt', action='store_true', default=False, help='use bonus Q*bonus')
+    parser.add_argument('--offline', action='store_true', default=False, help='offline sac')
+    parser.add_argument('--bonus', type=str, default='bonus_add', help='different type of bonus: bonus_add, bonus_mlt')  # Q + bonus or Q * bonus
     parser.add_argument('--beta', default=0.25, type=float, help='beta for the bonus')
     parser.add_argument("--root_path", type=str, default='/home/shideh/', help='path to the bonus model')
     parser.add_argument("--bonus_model", type=str, default=None, help='name of the bonus model')
@@ -280,8 +282,8 @@ if __name__ == "__main__":
         # initialize with bc
         bc_model=None,
         # bonus
+        offline=args.offline,
         bonus=args.bonus,
-        bonus_mlt=args.bonus_mlt,
         bonus_path=bonus_path,
         bonus_beta=args.beta,
         use_log=args.use_log,
@@ -333,7 +335,7 @@ if __name__ == "__main__":
     t = time.localtime()
     timestamp = time.strftime('%b-%d-%Y_%H%M', t)
     # bonus and the type
-    if args.bonus:
+    if not args.offline:
         exp_dir = '{}/bonus_{}/{}_{}'.format(args.env,
                                              timestamp, args.bonus_type, args.seed)
         # use bonus in actor, critic or both
@@ -361,9 +363,6 @@ if __name__ == "__main__":
     else:
         exp_dir = '{}/offline/{}_{}'.format(args.env, timestamp, args.seed)
 
-    # if args.use_norm and args.bonus:
-    #     exp_dir = exp_dir + '_bonus_norm'
-
     # setup the logger
     print('experiment dir:logs/{}'.format(exp_dir))
     setup_logger(variant=variant, log_dir='logs/{}'.format(exp_dir))
@@ -375,7 +374,7 @@ if __name__ == "__main__":
         # optionally set the GPU (default=False)
         ptu.set_gpu_mode(True, gpu_id=args.device_id)
         print('using gpu:{}'.format(args.device_id))
-        def map_location(storage, loc): return storage.cuda()
+        # def map_location(storage, loc): return storage.cuda()
 
     else:
         map_location = 'cpu'

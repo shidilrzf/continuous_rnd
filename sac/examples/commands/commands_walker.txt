@@ -1,0 +1,66 @@
+
+*** Reward shifting
+2020-11-25 21:02
+- [ ] reward shift = 0
+  - [ ] rnd:type 1
+
+
+- [ ] reward shift = 1
+Nov-25-2020_2036_walker2d-medium-v0.pt
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-25-2020_2036_walker2d-medium-v0.pt
+
+  - [ ] rnd:type 1
+  python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-25-2020_2036_walker2d-medium-v0.pt' --use_rnd_norm --policy_lr 1e-4 --qf_lr 3e-4 --beta 2e4  --rnd_type 'actor-critic' --reward_shift 1 --device 2
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-25-2020_2036_walker2d-medium-v0.pt' --use_rnd_norm --policy_lr 1e --qf_lr 3e-4 --beta 8e2  --rnd_type 'actor-critic' --reward_shift 1 --device 2
+
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2058/actor-critic_10_2e+08
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2059/actor-critic_10_4e+04
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2059/actor-critic_10_5e+04
+
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-25-2020_2036_walker2d-medium-v0.pt' --use_rnd_norm --policy_lr 1e-4 --qf_lr 3e-4 --beta 5e3  --rnd_type 'actor-critic' --reward_shift 1 --device 5
+
+
+## 
+python sac_d4rl.py --env 'walker2d-medium-v0'  --device-id 1  --policy_lr 3e-5  --reward_shift 0
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/offline/Nov-30-2020_1418_10/progress.csv
+
+
+python sac_d4rl.py --env 'walker2d-medium-v0'  --device-id 2  --policy_lr 3e-5  --reward_shift 1
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/offline/Nov-30-2020_1419_10/progress.csv
+
+python sac_d4rl.py --env 'walker2d-medium-v0'  --device-id 3  --policy_lr 3e-5  --reward_shift 3
+/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/offline/Nov-30-2020_1420_10/progress.csv
+
+
+
+# new bonus
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'halfcheetah-medium-v0' --bonus_model 'Nov-30-2020_1349_halfcheetah-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 3e-4 --beta 1  --bonus_type 'actor-critic' --reward_shift 1 --device 0
+
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-v0' --bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 3e-4 --beta 3  --bonus_type 'actor-critic' --reward_shift 1 --alpha_lr 3e-5 --device 1
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-v0' --bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 3e-4 --beta 4  --bonus_type 'actor-critic' --reward_shift 1 --alpha_lr 3e-5 --device 2
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-v0' --bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-6 --beta 4  --bonus_type 'actor-critic'  --device 6 --seed 0 --no_automatic_entropy_tuning
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-v0' --bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 4  --bonus_type 'actor-critic'  --device 1 --seed 0 --no_automatic_entropy_tuning
+
+logs/walker2d-medium-v0/bonus_Nov-30-2020_1911/actor-critic_10_1
+
+
+Hopper
+
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'hopper-medium-v0' --bonus_model 'Nov-30-2020_1504_hopper-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 0.5  --bonus_type 'actor-critic'  --alpha_lr 3e-5 --device 7 --seed 0
+
+python sac_bonus.py  --env 'hopper-medium-v0' --policy_lr 3e-5 --qf_lr 1e-5  --alpha_lr 3e-5 --device 0 --seed 0
+
+
+
+# cql 
+scp -r shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/CQL/  Downloads/
+
+
+

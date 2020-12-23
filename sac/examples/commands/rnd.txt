@@ -1,0 +1,11 @@
+
+
+https://github.com/jcwleo/random-network-distillation-pytorch
+
+https://github.com/wizdom13/RND-Pytorch
+
+https://github.com/DuaneNielsen/rnd
+
+https://github.com/orrivlin/MountainCar_DQN_RND/blob/master/RND.py
+
+https://github.com/seolhokim/supermariobros-random-network-distillation

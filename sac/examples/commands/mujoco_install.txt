@@ -1,0 +1,37 @@
+
+
+
+
+- https://medium.com/@chinmayburgul/setting-up-mujoco200-on-linux-16-04-18-04-38e5a3524c85
+- https://www.chenshiyu.top/blog/2019/06/19/Tutorial-Installation-and-Configuration-of-MuJoCo-Gym-Baselines/
+- paths set
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/shideh/.mujoco/mjpro200/bin
+export MJLIB_PATH=/home/shideh/.mujoco/mujoco200/bin/libmujoco200.so
+export MUJOCO_GL="glfw"
+export MJLIB_PATH=/home/shideh/.mujoco/mujoco200/bin/libmujoco200.dylib
+export MJKEY_PATH=/home/shideh/.mujoco/mujoco200/mjkey.txt
+export LD_LIBRARY_PATH=/home/shideh/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH
+export MUJOCO_PY_MJPRO_PATH=/home/shideh/.mujoco/mujoco200/
+export MUJOCO_PY_MJKEY_PATH=/home/shideh/.mujoco/mujoco200/mjkey.txt
+
+- install glfw
+
+
+
+
+
+
+
+export MJLIB_PATH=/home/shideh/.mujoco/mujoco200/bin/libmujoco200.so
+export MUJOCO_GL="glfw"
+export MJLIB_PATH=/home/shideh/.mujoco/mujoco200/bin/libmujoco200.dylib
+export MJKEY_PATH=/home/shideh/.mujoco/mujoco200/mjkey.txt
+export LD_LIBRARY_PATH=/home/shideh/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH
+export MUJOCO_PY_MJPRO_PATH=/home/shideh/.mujoco/mujoco200/
+export MUJOCO_PY_MJKEY_PATH=/home/shideh/.mujoco/mujoco200/mjkey.txt
+
+
+
+
+

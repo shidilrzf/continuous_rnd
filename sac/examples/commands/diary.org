@@ -1,0 +1,267 @@
+
+
+** Admin tasks
+- [ ] GCP dashboard
+  [[https://pantheon.corp.google.com/home/dashboard?project=druide-xgcp]]
+  [[go/brain-gcp-onboarding.]]
+
+- [X] workday bank details
+- [X] finish first week checklist
+
+
+** Research tasks
+- [X] mujoco licence ticket
+- [X] check the datasets
+  - [X] RL unplugged
+  - [X] d4rl
+
+- [X] install packages
+
+2020-10-27 22:55
+- [X] cartpole
+  - [X] train dqn
+  - [X] fenerate buffer
+  - [X] train rnd
+  - [X] train dqn with bonus
+  - [X] train dqn offline
+
+
+
+
+* train dqn
+- [ ] Acrobot-v1 :screen_dqn:
+  python train_dataset.py --train_dqn --env 'Acrobot-v1'
+- [X]  cartpole-v0 seed 100 :screen_dataset:
+  python train_dataset.py --train_dqn
+
+* make dataset
+- [ ]  cartpole-v0 seed 100 :screen_dataset:
+  python train_dataset.py --generate_dataset --timestamps '2020-10-29_12_54_56.149936'  :  buffer saved at :buffers/2020-10-29_13_02_53.360272_CartPole-v0_100
+
+* train rnd
+  
+  python train_rnd.py  --timestamps '2020-10-29_13_02_53.360272'
+
+* train dqn with rnd
+rnd network: 2020-10-29_19_53_41.203188
+dataset: 2020-10-29_13_02_53.360272
+python train_dqn_rnd.py --timestamps '2020-10-29_13_09_09.579742' --rnd
+
+
+
+
+** SAC halfcheetah-medium
+
+- [X] train sac offline with d4rl 
+    - [X] train for more epochs
+    - [X] seed = 0    :googlecloud:
+          - /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/offline/Nov-16-2020_1645_0/
+    - [X] seed = 100   :googlecloud:
+          - /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/offline/Nov-16-2020_1643_100/
+
+
+- [X] train rnd on the dataset
+
+- [X] train sac + rnd, offline with d4rl 
+
+*** only in actor \beta * bonus
+
+- [X] beta
+
+  - [X] 1e3
+    -  scp -r shideh@shideh.c.googlers.com:RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0/sac_d4rl_rnd_halfcheetah-medium-v0_2020_11_03_20_01_57_0000--s-0/progress.csv  /Users/shideh/RL/continuous_rnd/results/sac/progress_rnd.csv
+
+  - [X] 1e4
+    - scp -r shideh@shideh.c.googlers.com:RL/continuous_rnd/sac/examples/logs/ sac-d4rl-rnd-halfcheetah-medium-v0-1e+04/sac_d4rl_rnd_halfcheetah-medium-v0_1e+04_2020_11_04_21_12_00_0000--s-0/progress.csv  /Users/shideh/RL/continuous_rnd/results/sac/progress_rnd_1e4.csv
+
+    :googlecloud:
+    - /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-1e+04/sac_d4rl_rnd_halfcheetah-medium-v0_1e+04_2020_11_07_12_19_02_0000--s-0//progress.csv
+
+  - [X] 5e4 :googlecloud:
+    - /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-5e+04/sac_d4rl_rnd_halfcheetah-medium-v0_5e+04_2020_11_06_11_43_45_0000--s-0/progress.csv
+
+  - [X] 1e5 
+   - scp -r shideh@shideh.c.googlers.com:RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-1e+05/sac_d4rl_rnd_halfcheetah-medium-v0_1e+05_2020_11_06_16_04_55_0000--s-0/progress.csv  /Users/shideh/RL/continuous_rnd/results/sac/progress_rnd_1e5.csv
+
+  - [X] 5e3
+
+    - different seeds:
+      - [X] 10 :
+                scp -r shideh@shideh.c.googlers.com:RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-5e+03/sac_d4rl_rnd_halfcheetah-medium-v0_5e+03_2020_11_07_12_04_22_0000--s-0/progress.csv  /Users/shideh/RL/continuous_rnd/results/sac/progress_rnd_5e3.csv
+      - [X] 100
+                scp -r shideh@shideh.c.googlers.com:RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-5e+03/sac_d4rl_rnd_halfcheetah-medium-v0_5e+03_2020_11_09_11_15_12_0000--s-0/progress.csv  /Users/shideh/RL/continuous_rnd/results/sac/progress_rnd_5e3_100.csv
+      - [X] 0   
+                :googlecloud:
+                /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-5e+03/sac_d4rl_rnd_halfcheetah-medium-v0_5e+03_2020_11_09_12_54_34_0000--s-0/progress.csv ->progress_rnd_5e3_0.csv
+      - [X] 5
+                :googlecloud:
+                /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-halfcheetah-medium-v0-5e+03/sac_d4rl_rnd_halfcheetah-medium-v0_5e+03_2020_11_09_14_21_06_0000--s-0/progress.csv
+                ->progress_rnd_5e3_5.csv
+
+*** both actor and critic \beta * bonus
+
+- [X] actor-critic
+
+  - [X] beta = 5e3
+
+    - [X] seed = 0  '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd/actor-critic_5e+03_0/progress.csv'
+ 
+    - [X] seed = 10 '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd/actor-critic_5e+03_10/progress.csv'
+
+    - [X] seed = 100 '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd/actor-critic_5e+03_100/progress.csv'
+
+  - [X] beta = 5e3 with changes
+
+    - [X] seed = 100 '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd_Nov-18-2020_1256/actor-critic_100_5e+03'
+
+    - [X] seed = 0 '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd_Nov-18-2020_1258/actor-critic_0_5e+03'
+
+    - [X] seed = 10 '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd_Nov-18-2020_1300/actor-critic_10_5e+03'
+
+
+
+
+*** both actor and critic with bonus as a regulizer
+
+- [X] beta1 = 0.8 beta2 = 1
+  - [X] seed = 10 :screen_reg1:
+    - /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd_Nov-16-2020_1522/actor-critic_1e+04_10_kl
+
+  - [X] seed = 0 :screen_reg2:
+    - /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/rnd_Nov-16-2020_1553/actor-critic_1e+04_0_kl
+
+
+
+** different environments
+
+*** halfcheetah-expert
+
+- [X] offline
+  - [X] seed = 10: '/home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-expert-v0/offline/Nov-18-2020_1310_10'
+
+
+
+*** walker2d-medium
+
+- [X] offline
+  - [X] seed = 10: '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/offline/Nov-19-2020_1039_10/'
+
+- [X] beta rnd in critic
+  - [X] beta = 1e4 , lr = 1e-4
+    - [X] seed = 10 , device = 2, :walker_crt_1:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_1129/critic_10_1e+04/progress.csv'
+
+  - [X] beta = 1e4 , lr = 3e-5
+    - [X] seed = 10 , device = 3
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_1137/critic_10_1e+04/progress.csv'
+
+  - [X] beta = 2e4 , lr = 1e-4
+    - [X] seed = 10 , device = 1
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_1143/critic_10_2e+04/progress.csv'
+
+  - [X] beta = 5e3 , lr = 1e-4
+    - [X] seed = 10, 
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_1333/critic_10_5e+03/progress.csv'
+
+  - [X] beta = 1e3 , lr = 1e-4
+    - [X] seed = 10 , device = 3 :
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_2135/critic_10_1e+03/progress.csv'
+
+  - [X] beta = 1e3 , lr = 5e-3
+    - [X] seed = 10 , device = 3 
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-19-2020_2141/critic_10_1e+03/progress.csv'
+
+  - [X] beta = 1e4 , lr = 1e-4, new model
+    - [X] seed = 10 , device = 2, :new_model:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-20-2020_1109/critic_10_1e+04/progress.csv'
+
+- [X] beta rnd in both actor and critic
+
+  - [X] beta = 1e4 , lr = 1e-4, new model
+    - [X] seed = 10 , device = 2, :new_model_act_cr:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-20-2020_1110/actor-critic_10_1e+04/progress.csv'
+
+  - [X] beta = 2e4 , lr = 1e-4, new model
+    - [X] seed = 10 , device = 2, :new_model_act_cr_2:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-20-2020_1247/actor-critic_10_2e+04/progress.csv'
+
+  - [X] beta = 5e3 , lr = 1e-4, new model
+    - [X] seed = 10 , device = 1, :new_model_act_cr_3:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-20-2020_1300/actor-critic_10_5e+03/progress.csv'
+
+
+  - [X] beta = 1e3 , lr = 1e-4, new model
+    - [X] seed = 10 , device = 1, :new_model_act_cr_4:
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-20-2020_1301/actor-critic_10_1e+03/progress.csv'
+
+
+- [X] beta rnd in ctor
+
+  - [X] beta = 3e3 , lr = 1e-4, 
+    - [X] seed = 10 , device = 2
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-24-2020_2033/actor_10_3e+03/progress.csv'
+
+  - [X] beta = 2e3 , lr = 1e-4, 
+    - [X] seed = 10 , device = 2, ::
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-24-2020_2035/actor_10_2e+03/progress.csv'
+
+  - [X] beta = 5e3 , lr = 1e-4, 
+    - [X] seed = 10 , device = 1, ::
+    '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-24-2020_2038/actor_10_5e+03/progress.csv'
+
+
+
+
+- [X]  using normalization
+  - [X] beta = 1e4, lr= 1e-4, seed = 10
+    - '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-24-2020_1046/critic_10_1e+04'
+
+
+- [-] making rewrards positive
+
+  - [X] beta = 3e3, lr= 1e-4, seed = 10, critic only
+    - '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-24-2020_2135/critic_10_3e+03/progress.csv'
+
+  - [ ] beta = 5e3, lr= 1e-4, seed = 10, critic only
+    - '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_1109/critic_10_5e+03/progress.csv'
+
+  - [ ] beta = 5e3, le = 1e-4, seed = 10, actor-critic :act_crt_reward:
+    -  '/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_1028/actor-critic_10_5e+03/progress.csv'
+
+
+
+
+*** hopper-medium
+- [X] hopper-medium
+
+  - [X] offline
+              :googlecloud:
+              /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-hopper-medium-v0/sac_d4rl_hopper-medium-v0_2020_11_10_11_37_25_0000--s-0/progress.csv
+
+  - [X] beta = 5e3
+    - [X] 10
+            :googlecloud:
+            /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-hopper-medium-v0-5e+03/sac_d4rl_rnd_hopper-medium-v0_5e+03_2020_11_09_15_28_30_0000--s-0/progress.csv
+
+  - [X] beta = 1e3
+    - [X] 10
+            :googlecloud:
+            /home/shideh/RL/continuous_rnd/sac/examples/logs/sac-d4rl-rnd-hopper-medium-v0-1e+03/sac_d4rl_rnd_hopper-medium-v0_1e+03_2020_11_10_11_27_56_0000--s-0/progress.csv
+
+  - [X] beta = 2e4
+    - [X] 10
+            /home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/rnd/critic_2e+04_10/progress.csv
+  
+  - [X] beta = 8e2
+    - [X] 10
+          /home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/rnd/critic_8e+02_10/progress.csv
+
+  - [X] beta = 14e3
+    - [X] 10
+          /home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/rnd/critic_1.4e+04_10/progress.csv
+
+
+
+
+
+

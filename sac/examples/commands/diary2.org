@@ -1,0 +1,841 @@
+
+/home/shideh/RL/continuous_rnd/sac/examples/
+** Anti-exploration and SAC - walker2d
+
+*** Train rnd:
+- [X]type1: with both actions and states normalized : Nov-24-2020_1016_walker2d-medium-v0.pt, Nov-25-2020_2036_walker2d-medium-v0.pt
+
+*** Reward shifting
+2020-11-25 21:02
+- [ ] reward shift = 0
+  - [ ] rnd:type 1
+    - [ ] act_crt : 3e3 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1937/actor-critic_10_3e+03/progress.csv
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1937/actor-critic_10_3e+03/variant.json
+
+    - [ ] act_crt : 5e3 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1945/actor-critic_10_5e+03/progress.csv
+
+    - [ ] act_crt : 1e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1947/actor-critic_10_1e+04/progress.csv
+
+    - [ ] act_crt : 2e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1947/actor-critic_10_2e+04/progress.csv
+
+    - [ ] act_crt : 4e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2051/actor-critic_10_4e+04/progress.csv
+
+    - [ ] act_crt : 5e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2052/actor-critic_10_5e+04/progress.csv
+
+
+
+
+
+
+    - [ ] crt : 3e3 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] crt : 5e3 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] crt : 1e4 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] crt : 2e4 , policy_lr = 1e-4, qf_lr = 3e-4
+
+    - [ ] act : 3e3 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] act : 5e3 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] act : 1e4 , policy_lr = 1e-4, qf_lr = 3e-4
+    - [ ] act : 2e4 , policy_lr = 1e-4, qf_lr = 3e-4
+
+- [ ] reward shift = 1
+Nov-25-2020_2036_walker2d-medium-v0.pt
+
+  - [X] rnd:type 1
+    - [X] act_crt : 3e3 , policy_lr = 3e-5, qf_lr = 3e-4 
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2051/actor-critic_10_3e+03/progress.csv
+    
+    - [X] act_crt : 5e3 , policy_lr = 3e-5, qf_lr = 3e-4 
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2053/actor-critic_10_5e+03/progress.csv
+    
+    - [X] act_crt : 1e4 , policy_lr = 3e-5, qf_lr = 3e-4 
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2055/actor-critic_10_1e+04/progress.csv
+    
+    - [X] act_crt : 2e4 , policy_lr = 3e-5, qf_lr = 3e-4 
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2056/actor-critic_10_2e+04/progress.csv
+
+    - [X] act_crt : 3e3 , policy_lr = 1e-4, qf_lr = 3e-4 
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1104/actor-critic_10_3e+03/progress.csv
+    
+    - [X] act_crt : 5e3 , policy_lr = 1e-4, qf_lr = 3e-4
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1105/actor-critic_10_5e+03/progress.csv
+
+    - [X] act_crt : 1e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp1:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1106/actor-critic_10_1e+04/progress.csv
+
+    - [X] act_crt : 2e4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp1:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1107/actor-critic_10_2e+04/progress.csv
+ 
+
+
+    - [X] act_crt : 4e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2059/actor-critic_10_4e+04/progress.csv
+
+    - [X] act_crt : 5e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_2059/actor-critic_10_5e+04/progress.csv
+
+    - [X] act_crt : 8e2 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2:
+      /home/shideh/RL/continuous_rnd/sac/examples/ogs/walker2d-medium-v0/rnd_Nov-26-2020_2124/actor-critic_10_8e+02/progress.csv
+
+
+    
+    - [X] crt : 3e3 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2100/critic_10_3e+03/progress.csv
+
+    - [X] crt : 5e3 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2105/critic_10_5e+03/progress.csv
+
+    - [X] crt : 1e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu3:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2107/critic_10_1e+04/progress.csv
+
+    - [X] crt : 2e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu3:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-25-2020_2109/critic_10_2e+04/progress.csv
+
+    
+    - [X] act : 3e3 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu0:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1047/actor_10_3e+03/progress.csv
+
+    - [X] act : 5e3 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu1:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1047/actor_10_5e+03/progress.csv
+
+    - [X] act : 1e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu2:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1049/actor_10_1e+04/progress.csv
+
+    - [X] act : 2e4 , policy_lr = 3e-5, qf_lr = 3e-4 :gpu3:
+      /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/rnd_Nov-26-2020_1049/actor_10_2e+04/progress.csv
+
+
+
+
+- [ ] reward shift = 3
+
+0,2,3,4,6,7
+
+** bonus as classifier
+
+- [X] reward shift = 1
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1919/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 3 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1921/actor-critic_10_3/progress.csv
+
+  - [X] act_crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu3: :best:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1923/actor-critic_10_4/progress.csv
+
+
+  - [X] act_crt : 5 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu4:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1924/actor-critic_10_5/progress.csv
+
+
+  - [X] crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1928/critic_10_1/progress.csv
+
+  - [X] crt : 3 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu5:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1929/critic_10_3/progress.csv
+
+  - [X] crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu5:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1930/critic_10_4/progress.csv
+
+   - [X] crt : 5 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu7:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_1931/critic_10_5/progress.csv
+
+
+- [X] reward shift = 0
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu0:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_2113/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_2118/actor-critic_10_4/progress.csv
+
+  - [X] act_crt : 7 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_2119/actor-critic_10_7/progress.csv
+
+  - [X] act_crt : 10 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu6:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Nov-30-2020_2122/actor-critic_10_10/progress.csv
+
+* after finding the bug alpha_lr = 1e-6
+- [X] reward shift = 3
+  - [X] act_crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp2: :gpu2: 
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2050/actor-critic_10_4/progress.csv
+  
+  - [X] act_crt : 4 , policy_lr = 1e-4, qf_lr = 3e-4 :gcp2: :gpu4:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2052/actor-critic_10_4/progress.csv
+
+- [X] reward shift = 1
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp1: :gpu0:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2105/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 2 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2108/actor-critic_10_2/progress.csv
+
+
+- [X] reward shift = 0
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp1: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2109/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 2 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2110/actor-critic_10_2/progress.csv
+
+
+
+- [X] reward shift = 1,  alpha_lr = 3e-5
+
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp1: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2113/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 2 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-01-2020_2114/actor-critic_10_2/progress.csv
+
+  - [X] act_crt : 3 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-02-2020_1013/actor-critic_10_3
+
+  - [X] act_crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-02-2020_1015/actor-critic_10_4
+
+  - [X] act_crt : 5 , policy_lr = 3e-5, qf_lr = 3e-4 :gcp1: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-02-2020_1016/actor-critic_10_5
+
+
+
+  
+
+
+
+
+
+
+2, 4, 5, 6, 7
+
+* halfcheetah
+
+** bonus as classifier
+
+- [X] reward shift = 1
+  - [X] act_crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu0:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1807/actor-critic_10_1/progress.csv
+
+  - [X] act_crt : 3 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1811/actor-critic_10_3/progress.csv
+
+  - [X] act_crt : 2 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1814/actor-critic_10_2/progress.csv
+
+  - [X] act_crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1816/actor-critic_10_4/progress.csv
+
+  - [X] act_crt : 5 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu4:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1817/actor-critic_10_5/progress.csv
+
+
+  - [X] crt : 1 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu5:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1820/critic_10_1/progress.csv
+
+  - [X] crt : 2 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu6:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1821/critic_10_2/progress.csv
+
+  - [X] crt : 3 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu7:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1822/critic_10_3/progress.csv
+
+  - [X] crt : 4 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1823/critic_10_4/progress.csv
+
+  - [X] crt : 5 , policy_lr = 3e-5, qf_lr = 3e-4  :gcp2: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/halfcheetah-medium-v0/bonus_Dec-01-2020_1824/critic_10_5/progress.csv
+
+
+
+
+
+
+
+** debugging walker
+- [X] no shift, beta = 4, qf_lr = 1e-6
+ /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1724/actor-critic_10_4/progress.csv
+
+- [X] no shift, beta = 6, qf_lr = 1e-6
+ /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1745/actor-critic_10_6/progress.csv
+
+- [X] no shift, beta = 5, qf_lr = 1e-6
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1749/actor-critic_10_5/progress.csv
+
+- [X] no shift, beta = 3, qf_lr = 1e-6
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1756/actor-critic_10_3/progress.csv
+
+- [X] no shift, beta = 3, qf_lr = 1e-5
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1808/actor-critic_10_3/progress.csv
+
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-02-2020_1815/actor-critic_0_3/progress.csv
+
+
+
+- [X] no shift, beta = 4, qf_lr = 1e-6, no automatic tunning :debugging1: :gcp2: :gpu6:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_1156/actor-critic_0_4/progress.csv
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning :debugging2: :gcp2: :gpu1:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_1204/actor-critic_0_4/progress.csv
+
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-v0' --bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 1e-4  --beta 4  --bonus_type 'actor-critic' --seed 0 --no_automatic_entropy_tuning --device 6  --qf_lr 1e-4
+
+
+- [X] no shift, beta = 4, qf_lr = 3e-4, no automatic tunning, gradient clipping :debugging3: :gcp2: :gpu1: 
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_2109/actor-critic_0_4/progress.csv
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning, gradient clipping :debugging4: :gcp2: :gpu2:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_2110/actor-critic_0_4/progress.csv
+
+- [X] no shift, beta = 4, qf_lr = 1e-4, no automatic tunning, gradient clipping :debugging5: :gcp2: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_2111/actor-critic_0_4/progress.csv
+
+- [X] no shift, beta = 4, policy_lr 1e-4, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu5:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_2112/actor-critic_0_4/progress.csv
+
+- [X] no shift, beta = 4, policy_lr 1e-4, qf_lr = 1e-4, no automatic tunning, gradient clipping :debugging6: :gcp2: :gpu6:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-03-2020_2114/actor-critic_0_4/progress.csv
+
+
+
+** walker-expert
+python sac_bonus.py --bonus  --bonus_path '/home/shideh/'  --env 'walker2d-medium-expert-v0' --bonus_model 'Dec-04-2020_1045_walker2d-medium-expert-v0.pt' --normalize  --beta 3  --bonus_type 'actor-critic' --seed 10 --no_automatic_entropy_tuning --device 2  --qf_lr 1e-5
+
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu1:
+  logs/walker2d-medium-expert-v0/bonus_Dec-04-2020_1151/actor-critic_10_4
+
+- [X] no shift, beta = 3, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu1:
+  logs/walker2d-medium-expert-v0/bonus_Dec-04-2020_1154/actor-critic_10_3
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu1:
+  logs/walker2d-medium-expert-v0/bonus_Dec-04-2020_1151/actor-critic_10_4
+
+
+
+
+
+
+
+** hopper
+- [X] no shift, beta = 1, qf_lr = 1e-5
+/home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/bonus_Dec-02-2020_2022/actor-critic_0_1/progress.csv
+
+- [X] no shift, beta = 0.5, qf_lr = 1e-5
+/home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/bonus_Dec-02-2020_2023/actor-critic_0_0.5/progress.csv
+
+- [ ] offline, qf_lr = 1e-5 :gcp2: :gpu0:
+/home/shideh/RL/continuous_rnd/sac/examples/logs/hopper-medium-v0/offline/Dec-03-2020_1151_0/progress.csv
+
+
+
+
+
+** new ideas mathieu
+
+python train_bc.py  --lr 1e-3 --epoch 200 --env 'walker2d-medium-v0' --device-id 0 --load-model 'models/bc_Dec-07-2020_0920_walker2d-medium-v0.pt'
+ 
+- [ ] train bc
+  - [ ] walker2d 
+  - lr 5e-3   bc_Dec-06-2020_1750_walker2d-medium-v0.pt
+  - lr 1e-3   bc_Dec-06-2020_1839_walker2d-medium-v0.pt
+  - lr 1e-3 epoch=100, bc_Dec-07-2020_0920_walker2d-medium-v0.pt
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 8 \
+--bonus_type 'actor-critic'  --no_automatic_entropy_tuning --bc_model 'bc_Dec-06-2020_1750_walker2d-medium-v0.pt' --device 6
+
+- [X] no shift, beta = 3, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu1:
+
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu2: 
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1905/actor-critic_10_4/progress.csv
+
+- [X] no shift, beta = 5, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu3:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1906/actor-critic_10_5/progress.csv
+
+- [X] no shift, beta = 6, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu4:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1907/actor-critic_10_6/progress.csv
+
+- [X] no shift, beta = 7, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu5:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1908/actor-critic_10_7/progress.csv
+
+- [X] no shift, beta = 8, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu6:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1908/actor-critic_10_8/progress.csv
+
+- [X] no shift, beta = 4, qf_lr = 1e-6, no automatic tunning, gradient clipping  :gcp2: :gpu7:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1909/actor-critic_10_4/progress.csv
+
+- [X] no shift, beta = 4, qf_lr = 5e-6, no automatic tunning, gradient clipping  :gcp2: :gpu0:
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1910/actor-critic_10_4/progress.csv
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 5 \
+--bonus_type 'actor-critic'  --no_automatic_entropy_tuning --bc_model 'bc_Dec-06-2020_1839_walker2d-medium-v0.pt' --device 1
+
+- [X] no shift, beta = 5, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu1: mode: bc_Dec-06-2020_1839_walker2d-medium-v0.pt
+  /home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-06-2020_1912/actor-critic_10_5/progress.csv
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 10 \
+--bonus_type 'actor-critic'  --no_automatic_entropy_tuning --bc_model 'bc_Dec-07-2020_0920_walker2d-medium-v0.pt' --device 7
+
+- [X] no shift, beta = 3, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: :gpu0: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_0956/actor-critic_10_3
+
+- [X] no shift, beta = 4, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2112/actor-critic_10_4
+
+- [X] no shift, beta = 5, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2116/actor-critic_10_5
+
+- [X] no shift, beta = 6, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2117/actor-critic_10_6
+
+- [X] no shift, beta = 7, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2117/actor-critic_10_7
+
+- [X] no shift, beta = 8, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2118/actor-critic_10_8
+
+- [X] no shift, beta = 9, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2120/actor-critic_10_9
+
+- [X] no shift, beta = 10, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2121/actor-critic_10_10
+
+- [X]no shift, beta = 11, qf_lr = 1e-5, no automatic tunning, gradient clipping  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2121/actor-critic_10_10
+
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 8.5 \
+--bonus_type 'actor-critic'  --bc_model 'bc_Dec-07-2020_0920_walker2d-medium-v0.pt' --device 3
+
+
+
+- [X] no shift, beta = 6, qf_lr = 1e-5, alpha, gradient clipping  :gcp1: :gpu0: :w1:
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2139/actor-critic_10_6
+
+- [X] no shift, beta = 7, qf_lr = 1e-5, alpha, gradient clipping  :gcp1: :gpu1: :w2:
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2140/actor-critic_10_7
+
+- [X] no shift, beta = 8, qf_lr = 1e-5, alpha, gradient clipping  :gcp1: :gpu2: :w3:
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2141/actor-critic_10_8
+
+- [X] no shift, beta = 8.5, qf_lr = 1e-5, alpha, gradient clipping  :gcp1: :gpu3: :w4:
+  logs/walker2d-medium-v0/bonus_Dec-07-2020_2141/actor-critic_10_8.5
+
+
+** removing grad clipping
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 16 \
+--bonus_type 'actor-critic'  --bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --device 7
+
+
+- [X] no shift, beta = 6, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1250/actor-critic_10_6
+
+- [X] no shift, beta = 7, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1259/actor-critic_10_7
+
+- [X] no shift, beta = 8, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1300/actor-critic_10_8
+
+- [X] no shift, beta = 9, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1300/actor-critic_10_9
+
+- [X] no shift, beta = 10, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1302/actor-critic_10_10
+
+- [X]no shift, beta = 12, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1309/actor-critic_10_12
+
+- [X]no shift, beta = 14, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1309/actor-critic_10_14
+
+- [X]no shift, beta = 16, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1313/actor-critic_10_16
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Nov-30-2020_1526_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 10 \
+--bonus_type 'actor-critic'  --bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --reward_shift 1 --device 7
+
+- [X] shift = 1, beta = 7, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1347/actor-critic_10_7  
+
+- [X] shift = 1, beta = 8, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1347/actor-critic_10_8  
+
+- [X] shift = 1, beta = 9, qf_lr = 1e-5,  :gcp2: 
+ logs/walker2d-medium-v0/bonus_Dec-09-2020_1351/actor-critic_10_9 
+
+- [X] shift = 1, beta = 10, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1352/actor-critic_10_10
+
+
+** Now experiments:
+- [ ] more b0
+- [ ] initialize Q with the bonus
+- [ ] hopper
+
+
+** initialize Q with the bonus
+python train_bonus.py --use_norm  --lr 5e-3 --epoch 50 --env 'walker2d-medium-v0' --device-id 1 --layer_size 256
+models/Dec-09-2020_1529_walker2d-medium-v0.pt
+gcloud compute scp --recurse  xgcp:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-09-2020_1529_walker2d-medium-v0.pt Downloads/Dec-09-2020_1529_walker2d-medium-v0.pt
+gcloud compute scp --recurse  Downloads/bc_Dec-08-2020_1111_walker2d-medium-v0.pt xgcp:/home/shideh/RL/continuous_rnd/sac/examples/models/bc_Dec-08-2020_1111_walker2d-medium-v0.pt 
+
+
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Dec-09-2020_1529_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 9 \
+--bonus_type 'actor-critic'  --bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+
+- [X] no shift, beta = 6, qf_lr = 1e-5,  :gcp1: 
+  
+
+- [X] no shift, beta = 7, qf_lr = 1e-5,  :gcp1: 
+ logs/walker2d-medium-v0/bonus_Dec-09-2020_1639/actor-critic_10_7 
+
+- [X] no shift, beta = 8, qf_lr = 1e-5,  :gcp1: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1640/actor-critic_10_8  
+
+- [X] no shift, beta = 9, qf_lr = 1e-5,  :gcp1: 
+  logs/walker2d-medium-v0/bonus_Dec-09-2020_1641/actor-critic_10_9  
+
+
+** Update: grad clipping helped
+- repeat the experiment with grad clipping and bc initialize
+
+- [X]  alpha tunning:
+python sac_bonus.py --bonus  --root_path '/home/shideh/'  --env 'walker2d-medium-v0' \
+--bonus_model 'Dec-09-2020_1529_walker2d-medium-v0.pt' --normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 4 \
+--bonus_type 'actor-critic'  --bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 1
+
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5,  :gcp2: 
+    logs/walker2d-medium-v0/bonus_Dec-10-2020_1718/actor-critic_10_6
+
+  - [X] no shift, beta = 7, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1747/actor-critic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1748/actor-critic_10_8  
+
+  - [X] no shift, beta = 9, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1748/actor-critic_10_9   
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1749/actor-critic_10_10    
+
+  - [X]no shift, beta = 12, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1750/actor-critic_10_12   
+
+  - [X]no shift, beta = 14, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1750/actor-critic_10_14   
+
+  - [X]no shift, beta = 16, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1751/actor-critic_10_16  
+  
+  - [X]no shift, beta = 18, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1752/actor-critic_10_18
+
+  - [X]no shift, beta = 20, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1752/actor-critic_10_20
+
+  - [X]no shift, beta = 2, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1753/actor-critic_10_2
+
+  - [X]no shift, beta = 4, qf_lr = 1e-5,  :gcp2: 
+  logs/walker2d-medium-v0/bonus_Dec-10-2020_1754/actor-critic_10_4
+
+
+** add noise to the actions in bonus
+python train_bonus.py --use_norm  --lr 5e-3 --epoch 100 --env 'walker2d-medium-v0' --device-id 0 --std 0.5
+
+gcloud compute scp --recurse  xgcp:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-14-2020_1012_walker2d-medium-v0.pt Downloads/Dec-14-2020_1012_walker2d-medium-v0.pt
+
+scp -r  Downloads/Dec-14-2020_1012_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-14-2020_1012_walker2d-medium-v0.pt
+
+gcloud compute scp --recurse  Downloads/Dec-14-2020_1012_walker2d-medium-v0.pt xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-14-2020_1012_walker2d-medium-v0.pt 
+
+- [ ] std = 0.25: models/Dec-14-2020_0947_walker2d-medium-v0.pt :gcp1:
+- [ ] std = 0.5: models/Dec-14-2020_1012_walker2d-medium-v0.pt :gcp1:
+- [ ] std = 0.6: models/
+
+- [X]  alpha tunning, std=0.5: :exp1:
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 20 --bonus_type 'actor-critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 7
+  
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1031/actor-critic_10_4
+
+  - [X] no shift, beta = 5, qf_lr = 1e-5 :gcp2: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1035/actor-critic_10_5
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1037/actor-critic_10_6
+
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp2: :gpu4:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1038/actor-critic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp2: :gpu5:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1039/actor-critic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp2: :gpu6:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1040/actor-critic_10_10
+
+  - [X] no shift, beta = 12, qf_lr = 1e-5 :gcp2: :gpu7:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1041/actor-critic_10_12
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1041/actor-critic_10_14
+
+  - [X] no shift, beta = 16, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1043/actor-critic_10_16
+
+  - [X] no shift, beta = 18, qf_lr = 1e-5 :gcp2: :gpu5:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1044/actor-critic_10_18
+
+  - [X] no shift, beta = 20, qf_lr = 1e-5 :gcp2: :gpu7:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1045/actor-critic_10_20
+
+
+- [X]  alpha fixed,  std=0.5: :exp2:
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 16 --bonus_type 'actor-critic'  --no_automatic_entropy_tuning \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+  
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp1: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1112/actor-critic_10_4
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp1: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1113/actor-critic_10_6
+
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp1: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1114/actor-critic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp1: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1114/actor-critic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp1: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1115/actor-critic_10_10
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp1: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1116/actor-critic_10_14
+
+  - [X] no shift, beta = 16, qf_lr = 1e-5 :gcp1: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1116/actor-critic_10_16
+
+
+
+- [X]  alpha tunning but no initializiation with Q,  std=0.5: :exp3:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 14 --bonus_type 'actor-critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --device 3
+  
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp3: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1810/actor-critic_10_4
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp3: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1812/actor-critic_10_6
+
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp3: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1813/actor-critic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp3: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1813/actor-critic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp3: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1814/actor-critic_10_10
+
+  - [X] no shift, beta = 12, qf_lr = 1e-5 :gcp3: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1814/actor-critic_10_12
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp3: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-14-2020_1815/actor-critic_10_14
+
+
+- [X]  alpha tunning, std=0.25: :exp4:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_0947_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 14 --bonus_type 'actor-critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+
+
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1017/actor-critic_10_4
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1020/actor-critic_10_6
+
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1020/actor-critic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1021/actor-critic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1022/actor-critic_10_10
+
+  - [X] no shift, beta = 12, qf_lr = 1e-5 :gcp: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1022/actor-critic_10_12
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1023/actor-critic_10_14
+
+
+- [X]  alpha tunning, std=0.25, actor only: :exp5:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_0947_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 14 --bonus_type 'actor' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+
+
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp3: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1036/acritic_10_4
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp3: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1039/acritic_10_6
+  
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp3: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1040/acritic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp3: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1040/acritic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp3: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1041/acritic_10_10
+
+  - [X] no shift, beta = 12, qf_lr = 1e-5 :gcp3: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1042/acritic_10_12
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp3: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1043/acritic_10_14
+
+
+- [X]  alpha tunning, std=0.5, actor only: :exp6:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 14 --bonus_type 'actor' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+
+
+  - [X] no shift, beta = 4, qf_lr = 1e-5 :gcp2: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1109/acritic_10_4
+
+  - [X] no shift, beta = 6, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1112/acritic_10_6
+  
+  - [X] no shift, beta = 7, qf_lr = 1e-5 :gcp2: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1113/acritic_10_7
+
+  - [X] no shift, beta = 8, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1114/acritic_10_8
+
+  - [X] no shift, beta = 10, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1114/acritic_10_10
+
+  - [X] no shift, beta = 12, qf_lr = 1e-5 :gcp2: :gpu2:
+  :logs/walker2d-medium-v0/bonus_Dec-15-2020_1115/acritic_10_12
+
+  - [X] no shift, beta = 14, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-15-2020_1116/acritic_10_14
+
+
+
+- [ ]  alpha tunning, std=0.25, critic only: :exp7:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_0947_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 14 --bonus_type 'critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 3
+
+
+  - [ ] no shift, beta = 4, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2111/critic_10_4
+
+  - [ ] no shift, beta = 6, qf_lr = 1e-5 :gcp2: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2112/critic_10_6
+  
+  - [ ] no shift, beta = 7, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2113/critic_10_7
+
+  - [ ] no shift, beta = 8, qf_lr = 1e-5 :gcp2: :gpu0:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2113/critic_10_8
+
+  - [ ] no shift, beta = 10, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2114/critic_10_10
+
+  - [ ] no shift, beta = 12, qf_lr = 1e-5 :gcp2: :gpu2:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2115/critic_10_12
+
+  - [ ] no shift, beta = 14, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_2115/critic_10_14
+
+
+- [ ]  alpha tunning, std=0.5, critic only: :exp8:
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 12 --bonus_type 'critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize-Q --device 7
+
+
+  - [ ] no shift, beta = 4, qf_lr = 1e-5 :gcp2: :gpu1:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1259/critic_10_4
+
+  - [ ] no shift, beta = 6, qf_lr = 1e-5 :gcp2: :gpu2:
+  :logs/walker2d-medium-v0/bonus_Dec-16-2020_1300/critic_10_6
+  
+  - [ ] no shift, beta = 7, qf_lr = 1e-5 :gcp2: :gpu4:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1300/critic_10_7
+
+  - [ ] no shift, beta = 8, qf_lr = 1e-5 :gcp2: :gpu5:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1329/critic_10_8
+
+  - [ ] no shift, beta = 10, qf_lr = 1e-5 :gcp2: :gpu6:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1330/critic_10_10
+
+  - [ ] no shift, beta = 12, qf_lr = 1e-5 :gcp2: :gpu7:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1331/critic_10_12
+
+  - [ ] no shift, beta = 14, qf_lr = 1e-5 :gcp2: :gpu3:
+  logs/walker2d-medium-v0/bonus_Dec-16-2020_1254/critic_10_14
+
+
+
+
+
+** tw embeddings for state and actions in bonus
+
+  
+** Hopper with bc
+
+python train_bc.py  --lr 1e-3 --epoch 100 --env 'hopper-medium-v0' --device-id 0 --batch-size 64
+
+- [ ] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

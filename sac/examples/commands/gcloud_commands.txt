@@ -1,0 +1,64 @@
+
+
+gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/ Downloads/xgcp_models/
+
+scp -r  Downloads/xgcp_models/  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+
+Downloads/bc_act_crt_4.csv
+
+gcloud compute scp --recurse   xgcp3:/home/shideh/RL/continuous_rnd/sac/examples/
+
+/progress.csv Downloads/log_exp_3_crt_0.5.csv
+
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1138/actor-critic_10_1/progress.csv Downloads/mlt_exp_1_act_crt_1.csv
+
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1143/critic_10_1/progress.csv Downloads/mlt_exp_1_crt_1.csv
+  
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1145/actor_10_1/progress.csv Downloads/mlt_exp_1_act_1.csv
+
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1141/actor-critic_10_2/progress.csv Downloads/mlt_exp_1_act_crt_2.csv
+
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1145/critic_10_2/progress.csv Downloads/mlt_exp_1_crt_2.csv
+  
+
+gcloud compute scp --recurse   xgcp:/home/shideh/RL/continuous_rnd/sac/examples/logs/walker2d-medium-v0/bonus_Dec-21-2020_1146/actor_10_2/progress.csv Downloads/mlt_exp_1_act_2.csv
+
+
+
+
+# bonus models
+
+
+
+  gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1526_walker2d-medium-v0.pt Downloads/Nov-30-2020_1526_walker2d-medium-v0.pt
+
+
+  gcloud compute scp --recurse  Downloads/Nov-30-2020_1526_walker2d-medium-v0.pt xgcp:/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1526_walker2d-medium-v0.pt 
+
+
+# bc models
+
+gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/bc_Dec-07-2020_0920_walker2d-medium-v0.pt Downloads/bc_Dec-07-2020_0920_walker2d-medium-v0.pt
+
+
+gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/bc_Dec-08-2020_1111_walker2d-medium-v0.pt Downloads/bc_Dec-08-2020_1111_walker2d-medium-v0.pt
+
+gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/bc_Dec-09-2020_1110_hopper-medium-v0.pt Downloads/bc_Dec-09-2020_1110_hopper-medium-v0.pt
+
+
+
+
+
+# new bonus
+Dec-09-2020_1529_walker2d-medium-v0.pt
+gcloud compute scp --recurse  Downloads/Dec-09-2020_1529_walker2d-medium-v0.pt xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-09-2020_1529_walker2d-medium-v0.pt
+
+
+
+

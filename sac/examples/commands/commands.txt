@@ -1,0 +1,126 @@
+
+
+
+ssh –R 8008:localhost:8080 shideh@shideh.c.googlers.com
+
+ssh -f  -L 8088:localhost:8008 -N
+ssh -f shideh@shideh.c.googlers.com -L 8088:localhost:8008 -N
+
+
+# rnd 
+
+python train_rnd.py --env 'halfcheetah-expert-v0' --device-id 0 
+python train_rnd.py --env 'walker2d-medium-v0'  --device-id 0 --epochs 2
+python train_rnd.py --env 'walker2d-medium-v0'  --device-id 0 --epochs 2 --lr 1e-5 --use_norm
+
+python train_bonus.py --env 'walker2d-medium-v0'--use_norm --device-id 0
+
+python train_bonus.py --use_norm --device-id 0 --lr 5e-3 --epoch 50
+python train_bonus.py --use_norm  --lr 5e-3 --epoch 50 --env 'walker2d-medium-v0' --device-id 1
+
+Nov-30-2020_1349_halfcheetah-medium-v0.pt
+
+
+# rnd sac
+
+python sac_d4rl.py --rnd --beta 8e2 --rnd_path '/home/shideh/'  --env 'hopper-medium-v0' --rnd_model 'Nov-09-2020_1517_hopper-medium-v0.pt' --seed 10 --device-id 3
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/' --rnd_type 'actor-critic' --beta 5e3 --device-id 2 --seed 0
+
+python sac_d4rl.py --rnd --beta 5e3 --rnd_path '/home/shideh/'  --seed 5
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/' --rnd_type 'actor-critic' --kl --device-id 1 --seed 0
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1357_walker2d-medium-v0.pt' --device-id 2   --rnd_type 'actor-critic' --beta 2e4
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1357_walker2d-medium-v0.pt' --device-id 1   --rnd_type 'actor-critic' --beta 5e3
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1357_walker2d-medium-v0.pt' --device-id 1   --rnd_type 'actor-critic' --beta 1e3
+ 
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1043_walker2d-medium-v0.pt' --device-id 3 --beta 5e3 
+ 
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1043_walker2d-medium-v0.pt' --device-id 3 --beta 1e3 --policy_lr 3e-5
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-24-2020_1016_walker2d-medium-v0.pt' --device-id 1   --rnd_type 'actor-critic' --beta 1e4 --use_rnd_norm
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-24-2020_1016_walker2d-medium-v0.pt' --device-id 1    --beta 1e4 --use_rnd_norm
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1043_walker2d-medium-v0.pt' --device-id 1    --beta 3e3 
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1043_walker2d-medium-v0.pt' --device-id 2   --beta 2e3 --rnd_type 'actor'
+
+python sac_d4rl.py --rnd  --rnd_path '/home/shideh/'  --env 'walker2d-medium-v0' --rnd_model 'Nov-19-2020_1043_walker2d-medium-v0.pt' --device-id 2    --beta 5e3 
+
+
+
+
+
+# baseline
+python sac_d4rl.py  --device-id 1 --seed 0
+
+python sac_d4rl.py --env 'hopper-medium-v0'  --device-id 0 --seed 10 --policy_lr 1e-4
+
+python sac_d4rl.py --env 'walker2d-medium-v0'  --device-id 1 --seed 10 --policy_lr 3e-5 
+
+
+python sac_d4rl.py  --env 'halfcheetah-expert-v0' --device-id 0 --seed 10
+
+python sac_d4rl.py --env 'antmaze-umaze-v0' --device-id 0 --seed 10 --policy_lr 3e-4 --qf_lr 3e-4
+
+
+# rnd models
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-03-2020_1648_halfcheetah-medium-v0.pt
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-09-2020_1517_hopper-medium-v0.pt
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-19-2020_1043_walker2d-medium-v0.pt :best:
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-19-2020_1225_walker2d-medium-v0.pt
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-19-2020_1357_walker2d-medium-v0.pt
+
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-24-2020_1016_walker2d-medium-v0.pt
+models/Nov-30-2020_1426_hopper-medium-v0.pt
+
+## rnd classifier models
+/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1349_halfcheetah-medium-v0.pt
+Nov-30-2020_1349_halfcheetah-medium-v0.pt
+
+
+# copy rnd models
+scp -r  Downloads/Nov-09-2020_1517_hopper-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads/Nov-19-2020_1043_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+
+scp -r  Downloads/Nov-19-2020_1225_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads/Nov-19-2020_1357_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads/Nov-25-2020_2036_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads//Nov-30-2020_1349_halfcheetah-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads/bc_Dec-08-2020_1111_walker2d-medium-v0.p  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+scp -r  Downloads/bc_Dec-09-2020_1110_hopper-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models
+
+
+scp -r shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1526_walker2d-medium-v0.pt  Downloads/
+
+scp -r shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1504_hopper-medium-v0.pt  Downloads/
+
+scp -r shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Nov-30-2020_1349_halfcheetah-medium-v0.pt
+ Downloads/
+
+# copy datasets
+
+scp -r  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/notebooks/walker2d-medium-v0.pickle /Users/shideh/RL/continuous_rnd/sac/examples/data
+
+# copy results
+
+scp -r  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/CQL/d4rl/examples/logs/CQL-offline-mujoco-runs/336512/CQL_offline_mujoco_runs/336512_2020_11_24_11_30_33_0000--s-0/progress.csv /Users/shideh/RL/continuous_rnd/results/sac/progress_cql.csv
+
+
+We evaluated CQL with a policy learning rate in the range of [3e − 5, 1e−4, 3e−4]. We found 3e−5 to almost uniformly attain good performance. While 1e−4 seemed to be better on some of our experiments (such as hopper-medium-v0 and antmaze- medium-play-v0), but it performed badly with the real-human demonstration datasets, such as the Adroit tasks. We chose 3e − 5 as the default across all environments

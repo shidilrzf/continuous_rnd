@@ -1,0 +1,219 @@
+
+
+** Multiplication
+
+python sac_bonus.py --bonus 'bonus_mlt'  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 2 --bonus_type 'actor' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize_Q --device 3 --reward_shift 0 
+
+- [ ] actor-critic , beta = 1 :gcp: :w1:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1138/actor-critic_10_1
+
+- [ ] critic, beta = 1 :gcp: :w3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1143/critic_10_1
+  
+- [ ] actor, beta = 1 :gcp: :w5:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1145/actor_10_1
+
+- [ ] actor-critic , beta = 2 :gcp: :w2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1141/actor-critic_10_2
+
+- [ ] critic, beta = 2 :gcp: :w4:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1145/critic_10_2
+  
+- [ ] actor, beta = 2 :gcp: :w6:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1146/actor_10_2
+  
+
+python sac_bonus.py --bonus 'bonus_mlt'  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 2 --bonus_type 'actor' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize_Q --device 3 
+
+- [ ] actor-critic , beta = 1 :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1158/actor-critic_10_1
+
+- [ ] critic, beta = 1 :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1204/critic_10_1
+  
+- [ ] actor, beta = 1 :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1208/actor_10_1
+
+- [ ] actor-critic , beta = 2 :gcp3: :w2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1202/actor-critic_10_2
+
+- [ ] critic, beta = 2 :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1206/critic_10_2
+  
+- [ ] actor, beta = 2 :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1208/actor_10_2
+
+
+
+
+
+
+
+** Log of bonus
+
+
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 15 --bonus_type 'critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize_Q --use_log --device 3 :exp4:
+
+- [X] beta = 0.5 :gcp3:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1841/critic_10_0.5
+
+- [X] beta = 1 :gcp3:gpu1:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1844/critic_10_1
+
+- [X] beta = 2 :gcp3:gpu2:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1846/critic_10_2
+
+- [X] beta = 3 :gcp3:gpu3:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1846/critic_10_3
+
+- [X] beta = 5 :gcp3:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1850/critic_10_5
+
+- [X] beta = 10 :gcp3:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1850/critic_10_10
+
+- [X] beta = 15 :gcp3:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1851/critic_10_15
+
+
+python sac_bonus.py --bonus  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 15 --bonus_type 'actor-critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --initialize_Q --use_log --device 3 :exp5:
+
+- [X] beta = 0.5 :gcp:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1901/actor-critic_10_0.5
+
+- [X] beta = 1 :gcp:gpu1:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1902/actor-critic_10_1
+
+- [X] beta = 2 :gcp:gpu2:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1902/actor-critic_10_2
+
+- [X] beta = 3 :gcp:gpu3:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1903/actor-critic_10_3
+
+- [X] beta = 5 :gcp:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1903/actor-critic_10_5
+
+- [X] beta = 10 :gcp:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1904/actor-critic_10_10
+
+- [X] beta = 15 :gcp:gpu0:
+logs/walker2d-medium-v0/bonus_Dec-20-2020_1904/actor-critic_10_15
+
+
+
+
+python sac_bonus.py --bonus 'bonus_add'  --env 'walker2d-medium-v0' --bonus_model 'Dec-14-2020_1012_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 5e-6 --beta 40 --bonus_type 'critic' \
+--use_log --device 2 :exp6:
+
+- [X] beta = 20 :gcp2:gpu1:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1846/critic_10_20
+
+- [X] beta = 30 :gcp2:gpu1:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1902/critic_10_30
+
+- [X] beta = 35 :gcp2:gpu2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1903/critic_10_35
+
+- [X] beta = 40 :gcp2:gpu2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_1904/critic_10_40
+
+
+
+
+
+** add noise to the actions in bonus + lower capacity
+python train_bonus.py --use_norm  --lr 5e-3 --epoch 5 --env 'walker2d-medium-v0' --device-id 0 --std 0.5 --layer_size 32
+
+gcloud compute scp --recurse  xgcp2:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-21-2020_2118_walker2d-medium-v0.pt Downloads/Dec-21-2020_2118_walker2d-medium-v0.pt
+
+scp -r  Downloads/Dec-21-2020_2118_walker2d-medium-v0.pt  shideh@shideh.c.googlers.com:/usr/local/google/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-21-2020_2118_walker2d-medium-v0.pt
+
+gcloud compute scp --recurse  Downloads/Dec-21-2020_2118_walker2d-medium-v0.pt xgcp3:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-21-2020_2118_walker2d-medium-v0.pt 
+
+gcloud compute scp --recurse  Downloads/Dec-21-2020_2118_walker2d-medium-v0.pt xgcp:/home/shideh/RL/continuous_rnd/sac/examples/models/Dec-21-2020_2118_walker2d-medium-v0.pt 
+
+- [ ] std = 0.5: models/Dec-21-2020_2110_walker2d-medium-v0.pt
+- [ ] std = 0.6: models/Dec-21-2020_2118_walker2d-medium-v0.pt
+
+:exp9:
+python sac_bonus.py --bonus 'bonus_add' --env 'walker2d-medium-v0' --bonus_model 'Dec-21-2020_2118_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 18 --bonus_type 'critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --bonus_layer 32 --device 6 
+
+- [X] beta = 5  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2138/critic_10_5
+
+- [X] beta = 6  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2140/critic_10_6
+
+- [X] beta = 8  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2141/critic_10_8
+
+- [X] beta = 10  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2141/critic_10_10
+
+- [X] beta = 12  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2142/critic_10_12
+
+- [X] beta = 14  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2142/critic_10_14
+
+- [X] beta = 18  :gcp2:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2143/critic_10_18
+
+
+:exp10:
+python sac_bonus.py --bonus 'bonus_add' --env 'walker2d-medium-v0' --bonus_model 'Dec-21-2020_2118_walker2d-medium-v0.pt' \
+--normalize --policy_lr 3e-5 --qf_lr 1e-5 --beta 16 --bonus_type 'actor-critic' \
+--bc_model 'bc_Dec-08-2020_1111_walker2d-medium-v0.pt' --bonus_layer 32 --device 0 
+
+- [X] beta = 5  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2147/actor-critic_10_5
+
+- [X] beta = 6  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2148/actor-critic_10_6
+
+- [X] beta = 8  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2148/actor-critic_10_8
+
+- [X] beta = 10  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2149/actor-critic_10_10
+
+- [X] beta = 12  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2152/actor-critic_10_12
+
+- [X] beta = 14  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2152/actor-critic_10_14
+
+- [X] beta = 18  :gcp3:
+logs/walker2d-medium-v0/bonus_Dec-21-2020_2153/actor-critic_10_16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

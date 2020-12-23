@@ -4,7 +4,7 @@ graphs/
 latent_temp_dir/
 todo.txt
 data/
-models/
+
 output/
 buffers/
 runs/
